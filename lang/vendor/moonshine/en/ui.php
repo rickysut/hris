@@ -43,8 +43,8 @@ return [
         'mark_as_read' => 'Mark as read',
     ],
     'login' => [
-        'title' => 'Welcome to :moonshine_title!',
-        'description' => 'Please sign-in to your account',
+        'title' => ':moonshine_title',
+        'description' => 'Please sign-in',
         'authorization' => 'Authorization',
         'remember_me' => 'Remember me',
         'login' => 'Log in',
