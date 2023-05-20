@@ -16,7 +16,7 @@ class BranchResource extends Resource
 
 	public static string $title = 'Branch';
 
-    public static bool $withPolicy = true;
+    public static bool $withPolicy = false;
 
 	public function fields(): array
 	{
