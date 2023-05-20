@@ -22,11 +22,13 @@ class MoonShineServiceProvider extends ServiceProvider
                 MenuItem::make('moonshine::ui.resource.role_title', new MoonShineUserRoleResource())
                     ->translatable()
                     ->icon('bookmark'),
-                MenuItem::make('Branch', new BranchResource())
-                    ->translatable()
-                    ->icon('heroicons.outline.building-library'),
+                
             ])->translatable(),
             
+            
+            MenuItem::make('Branch', new BranchResource())
+                        ->translatable()
+                        ->icon('heroicons.outline.building-library'),
             
         ]);
     }

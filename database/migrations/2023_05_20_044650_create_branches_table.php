@@ -14,7 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('branches', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->string('branch_name')->unique();
+            $table->string('branch_address')->nullable();
             $table->timestamps();
         });
     }
