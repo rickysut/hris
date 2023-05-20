@@ -23,7 +23,7 @@ class MoonShineServiceProvider extends ServiceProvider
                     ->icon('bookmark'),
             ])->translatable(),
 
-
+            
         ]);
     }
 }

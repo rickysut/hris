@@ -42,7 +42,7 @@ return [
         'footer' => ''
     ],
     'locales' => [
-        'en', 'ru'
+        'en', 'id'
     ],
     'middlewares' => [],
     'tinymce' => [
@@ -57,7 +57,7 @@ return [
     'footer' => [
         'copyright' => 'Copyright Bina Group',
         'nav' => [
-
+            
         ],
     ]
 ];
