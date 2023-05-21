@@ -11,7 +11,7 @@ return [
     'logo' => env('MOONSHINE_LOGO', '/images/logoholo2.png'),
 
     'route' => [
-        'prefix' => env('MOONSHINE_ROUTE_PREFIX', 'hrs'),
+        'prefix' => env('MOONSHINE_ROUTE_PREFIX', ''),
         'middleware' => ['moonshine'],
         'custom_page_slug' => 'custom_page',
         'notFoundHandler' => MoonShineNotFoundException::class
@@ -21,7 +21,7 @@ return [
     'auth' => [
         'enable' => true,
         'fields' => [
-            'username' => 'email',
+            'username' => 'username',
             'password' => 'password',
             'name' => 'name',
             'avatar' => 'avatar'

@@ -9,6 +9,8 @@ use MoonShine\Menu\MenuGroup;
 use MoonShine\Menu\MenuItem;
 use MoonShine\Resources\MoonShineUserResource;
 use MoonShine\Resources\MoonShineUserRoleResource;
+use MoonShine\Models\MoonshineUserRole;
+
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -23,7 +25,10 @@ class MoonShineServiceProvider extends ServiceProvider
                     ->translatable()
                     ->icon('bookmark'),
                 
-            ])->translatable(),
+            ])
+            ->translatable()
+            ->canSee(fn ($user) => auth()->user()->moonshine_user_role_id === MoonshineUserRole::DEFAULT_ROLE_ID),
+            
             
             
             MenuItem::make('Branch', new BranchResource())
