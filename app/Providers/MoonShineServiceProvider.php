@@ -35,6 +35,14 @@ class MoonShineServiceProvider extends ServiceProvider
                         ->translatable()
                         ->icon('heroicons.outline.building-library'),
             
+            // MenuItem::make('Branch', new BranchResource())
+            //             ->translatable()
+            //             ->icon('heroicons.outline.building-library'),
+            
+            // MenuItem::make('Branch', new BranchResource())
+            //             ->translatable()
+            //             ->icon('heroicons.outline.building-library'),
+            
         ]);
     }
 }
