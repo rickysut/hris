@@ -31,13 +31,13 @@ class MoonShineServiceProvider extends ServiceProvider
             
             
             
+            MenuItem::make('Company', new CompanyResource())
+                        ->translatable()
+                        ->icon('heroicons.outline.building-office'),
+            
             MenuItem::make('Branch', new BranchResource())
                         ->translatable()
                         ->icon('heroicons.outline.building-library'),
-            
-            // MenuItem::make('Branch', new BranchResource())
-            //             ->translatable()
-            //             ->icon('heroicons.outline.building-library'),
             
             // MenuItem::make('Branch', new BranchResource())
             //             ->translatable()
