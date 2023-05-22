@@ -66,6 +66,7 @@ return [
         'admins_title' => 'Admins',
         'role_title' => 'Roles',
         'role_name' => 'Judul',
+        'username' => 'Username',
 
         'main_information' => 'Info Utama',
         'change_password' => 'Ganti katasandi',

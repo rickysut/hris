@@ -7,11 +7,11 @@ return [
     'dir' => 'app/MoonShine',
     'namespace' => 'App\MoonShine',
 
-    'title' => env('MOONSHINE_TITLE', 'MoonShine'),
-    'logo' => env('MOONSHINE_LOGO', ''),
+    'title' => env('MOONSHINE_TITLE', 'BINA HRS'),
+    'logo' => env('MOONSHINE_LOGO', '/images/logoholo2.png'),
 
     'route' => [
-        'prefix' => env('MOONSHINE_ROUTE_PREFIX', 'moonshine'),
+        'prefix' => env('MOONSHINE_ROUTE_PREFIX', ''),
         'middleware' => ['moonshine'],
         'custom_page_slug' => 'custom_page',
         'notFoundHandler' => MoonShineNotFoundException::class
@@ -21,7 +21,7 @@ return [
     'auth' => [
         'enable' => true,
         'fields' => [
-            'username' => 'email',
+            'username' => 'username',
             'password' => 'password',
             'name' => 'name',
             'avatar' => 'avatar'
@@ -42,7 +42,7 @@ return [
         'footer' => ''
     ],
     'locales' => [
-        'en', 'ru'
+        'en', 'id'
     ],
     'middlewares' => [],
     'tinymce' => [
@@ -55,11 +55,9 @@ return [
     ],
     'header' => null, // blade path
     'footer' => [
-        'copyright' => 'Made with ❤️ by <a href="https://cutcode.dev" class="font-semibold text-purple hover:text-pink" target="_blank">CutCode</a>',
+        'copyright' => 'Copyright Bina Group',
         'nav' => [
-            'https://github.com/moonshine-software/moonshine/blob/1.5.x/LICENSE.md' => 'License',
-            'https://moonshine.cutcode.dev' => 'Documentation',
-            'https://github.com/moonshine-software/moonshine' => 'GitHub',
+
         ],
     ]
 ];

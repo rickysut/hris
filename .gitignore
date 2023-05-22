@@ -3,7 +3,9 @@
 /public/hot
 /public/storage
 /storage/*.key
-/vendor
+!/vendor/
+/vendor/*
+!/vendor/moonshine
 .env
 .env.backup
 .env.production
