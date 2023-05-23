@@ -54,6 +54,23 @@ return [
         'password' => 'Katasandi',
         'or_socials' => 'or',
     ],
+
+    'subtitle' => [
+        'admins_title' => 'Pengaturan pengguna',
+        // settings
+        'company' => 'Info perusahaan',
+        'branch' => 'Daftar cabang',
+        'department' => 'Daftar departemen',
+        'subdepartment' => 'Daftar sub-departemen',
+        'jabatan' => 'Daftar jabatan',
+
+        //shift
+        'shift' => 'Daftar shift',
+        //alasan
+        'alasan' => 'Daftar alasan',
+        'multiplication' => 'Perkalian lembur',
+    ],
+
     'resource' => [
         'system' => 'Admin',
         'role' => 'Roles',
@@ -76,9 +93,19 @@ return [
 
         'queued' => 'Queued',
 
+        // settings
+        'settings' => 'Pengaturan',
         'company' => 'Perusahaan',
         'branch' => 'Cabang',
         'department' => 'Departemen',
+        'subdepartment' => 'Sub-Departemen',
+        'jabatan' => 'Jabatan',
+
+        //shift
+        'shift' => 'Shift',
+        //alasan
+        'alasan' => 'Alasan',
+        'multiplication' => 'Multiplikasi',
 
         'export' => [
             'exported' => 'File exported',

@@ -14,7 +14,15 @@ class DepartmentResource extends Resource
 {
 	public static string $model = Department::class;
 
-	public static string $title = 'Department';
+    public function title(): string
+    {
+        return trans('moonshine::ui.resource.department');
+    }
+
+    public function subTitle(): string
+    {
+        return trans('moonshine::ui.subtitle.department');
+    }
 
     public static bool $withPolicy = true;
 
@@ -34,7 +42,7 @@ class DepartmentResource extends Resource
 
     public function search(): array
     {
-        return ['id'];
+        return ['NamaDept'];
     }
 
     public function filters(): array

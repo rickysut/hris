@@ -36,6 +36,7 @@ class ProfileFormRequest extends MoonShineRequest
                     config('moonshine.auth.fields.username', 'email')
                 )->ignore(MoonShineAuth::guard()->id()),
             ],
+            'email' => 'string',
             'avatar' => ['image'],
             'password' => 'sometimes|nullable|min:6|required_with:password_repeat|same:password_repeat',
         ];

@@ -7,7 +7,7 @@ return [
     'dir' => 'app/MoonShine',
     'namespace' => 'App\MoonShine',
 
-    'title' => env('MOONSHINE_TITLE', 'BINA HRS'),
+    'title' => env('MOONSHINE_TITLE', ''),
     'logo' => env('MOONSHINE_LOGO', '/images/logoholo2.png'),
 
     'route' => [
@@ -23,6 +23,7 @@ return [
         'fields' => [
             'username' => 'username',
             'password' => 'password',
+            'email'    => 'email',
             'name' => 'name',
             'avatar' => 'avatar'
         ],
@@ -39,7 +40,7 @@ return [
                 'model' => MoonshineUser::class,
             ],
         ],
-        'footer' => ''
+        'footer' => 'Copyright &#169; Bina Group'
     ],
     'locales' => [
         'en', 'id'

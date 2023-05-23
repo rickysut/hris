@@ -43,7 +43,7 @@ return [
         'mark_as_read' => 'Mark as read',
     ],
     'login' => [
-        'title' => ':moonshine_title!',
+        'title' => ':moonshine_title',
         'description' => 'Please sign-in',
         'authorization' => 'Authorization',
         'remember_me' => 'Remember me',
@@ -54,6 +54,23 @@ return [
         'password' => 'Password',
         'or_socials' => 'or',
     ],
+
+    'subtitle' => [
+        'admins_title' => 'Users Management',
+        // settings
+        'company' => 'Company info',
+        'branch' => 'Registered branch',
+        'department' => 'Department list',
+        'subdepartment' => 'List of sub-department',
+        'jabatan' => 'List of positions',
+
+        //shift
+        'shift' => 'Shift list',
+        //alasan
+        'alasan' => 'Leave codes',
+        'multiplication' => 'Multiplication of overtime',
+    ],
+
     'resource' => [
         'system' => 'Admin',
         'role' => 'Roles',
@@ -76,9 +93,19 @@ return [
 
         'queued' => 'Queued',
 
+        // settings
+        'settings' => 'Settings',
         'company' => 'Company',
         'branch' => 'Branch',
         'department' => 'Department',
+        'subdepartment' => 'Sub-Department',
+        'jabatan' => 'Position',
+
+        //shift
+        'shift' => 'Shift',
+        //alasan
+        'alasan' => 'Leave Code',
+        'multiplication' => 'Multiplication',
 
         'export' => [
             'exported' => 'File exported',

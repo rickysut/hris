@@ -40,6 +40,12 @@ class MoonShineUserResource extends Resource
         return trans('moonshine::ui.resource.admins_title');
     }
 
+    public function subTitle(): string
+    {
+        return trans('moonshine::ui.subtitle.admins_title');
+    }
+
+
     public function fields(): array
     {
         return [

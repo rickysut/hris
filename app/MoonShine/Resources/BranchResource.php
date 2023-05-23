@@ -15,7 +15,15 @@ class BranchResource extends Resource
 {
 	public static string $model = Branch::class;
 
-	public static string $title = 'Branch';
+    public function title(): string
+    {
+        return trans('moonshine::ui.resource.branch');
+    }
+
+    public function subTitle(): string
+    {
+        return trans('moonshine::ui.subtitle.branch');
+    }
 
     public static bool $withPolicy = true;
 
@@ -41,7 +49,7 @@ class BranchResource extends Resource
 
     public function search(): array
     {
-        return ['id'];
+        return ['KDCABANG'];
     }
 
     public function filters(): array

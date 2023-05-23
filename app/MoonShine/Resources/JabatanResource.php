@@ -3,27 +3,25 @@
 namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Company;
+use App\Models\Jabatan;
 
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
-use MoonShine\Models\MoonshineUser;
 use MoonShine\Fields\Text;
 
-class CompanyResource extends Resource
+class JabatanResource extends Resource
 {
-	public static string $model = Company::class;
-
+	public static string $model = Jabatan::class;
 
     public function title(): string
     {
-        return trans('moonshine::ui.resource.company');
+        return trans('moonshine::ui.resource.jabatan');
     }
 
     public function subTitle(): string
     {
-        return trans('moonshine::ui.subtitle.company');
+        return trans('moonshine::ui.subtitle.jabatan');
     }
 
     public static bool $withPolicy = true;
@@ -34,11 +32,8 @@ class CompanyResource extends Resource
 	{
 		return [
 		    // ID::make()->sortable(),
-            Text::make('Perusahaan', 'Perusahaan', fn($item) => $item->Perusahaan)->sortable(),
-            Text::make('Kode Area', 'kodearea', fn($item) => $item->kodearea)->sortable(),
-            Text::make('Alamat', 'Alamat', fn($item) => $item->Alamat),
-            Text::make('Telpon', 'Telpon', fn($item) => $item->Telpon),
-            Text::make('Fax', 'Faksimili', fn($item) => $item->Faksimili),
+
+            Text::make('Jabatan', 'Jabatan', fn($item) => $item->Jabatan)->sortable(),
         ];
 	}
 
@@ -49,7 +44,7 @@ class CompanyResource extends Resource
 
     public function search(): array
     {
-        return ['Perusahaan'];
+        return ['jabatan'];
     }
 
     public function filters(): array

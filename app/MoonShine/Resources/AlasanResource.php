@@ -3,27 +3,28 @@
 namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Company;
+use App\Models\Alasan;
 
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
-use MoonShine\Models\MoonshineUser;
+use MoonShine\Fields\Number;
 use MoonShine\Fields\Text;
 
-class CompanyResource extends Resource
-{
-	public static string $model = Company::class;
 
+class AlasanResource extends Resource
+{
+	public static string $model = Alasan::class;
 
     public function title(): string
     {
-        return trans('moonshine::ui.resource.company');
+        return trans('moonshine::ui.resource.alasan');
     }
+
 
     public function subTitle(): string
     {
-        return trans('moonshine::ui.subtitle.company');
+        return trans('moonshine::ui.subtitle.alasan');
     }
 
     public static bool $withPolicy = true;
@@ -34,11 +35,10 @@ class CompanyResource extends Resource
 	{
 		return [
 		    // ID::make()->sortable(),
-            Text::make('Perusahaan', 'Perusahaan', fn($item) => $item->Perusahaan)->sortable(),
-            Text::make('Kode Area', 'kodearea', fn($item) => $item->kodearea)->sortable(),
-            Text::make('Alamat', 'Alamat', fn($item) => $item->Alamat),
-            Text::make('Telpon', 'Telpon', fn($item) => $item->Telpon),
-            Text::make('Fax', 'Faksimili', fn($item) => $item->Faksimili),
+            Text::make('Kode', 'kdAlasan', fn($item) => $item->kdAlasan)->sortable(),
+            Text::make('Keterangan', 'Keterangan', fn($item) => $item->Keterangan)->sortable(),
+            Number::make('Potong Cuti', 'potcuti', fn($item) => $item->potcuti),
+
         ];
 	}
 
@@ -49,7 +49,7 @@ class CompanyResource extends Resource
 
     public function search(): array
     {
-        return ['Perusahaan'];
+        return ['kdAlasan','Keterangan'];
     }
 
     public function filters(): array
