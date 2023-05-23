@@ -19,23 +19,23 @@ class BranchResource extends Resource
 
     public static bool $withPolicy = true;
 
-    public static array $activeActions = ['create', 'show', 'edit', 'delete']; 
+    public static array $activeActions = ['show'];
 
 	public function fields(): array
 	{
 		return [
 		    // ID::make()->sortable(),
-            Text::make('Name', 'branch_name', fn($item) => $item->branch_name)->sortable(),
-            Text::make('Address', 'branch_address', fn($item) => $item->branch_address)->sortable(),
-            
- 
+            Text::make('Kode', 'KDCABANG', fn($item) => $item->KDCABANG)->sortable(),
+            Text::make('Alamat', 'ALAMAT', fn($item) => $item->ALAMAT)->sortable(),
+
+
         ];
 	}
 
 	public function rules(Model $item): array
 	{
 	    return [
-            
+
         ];
     }
 

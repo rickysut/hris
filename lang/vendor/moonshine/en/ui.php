@@ -55,7 +55,7 @@ return [
         'or_socials' => 'or',
     ],
     'resource' => [
-        'system' => 'System',
+        'system' => 'Admin',
         'role' => 'Roles',
         'name' => 'Name',
         'email' => 'E-mail',
@@ -63,7 +63,7 @@ return [
         'repeat_password' => 'Repeat password',
         'avatar' => 'Avatar',
         'created_at' => 'Created At',
-        'admins_title' => 'Admins',
+        'admins_title' => 'Users',
         'role_title' => 'Roles',
         'role_name' => 'Title',
         'username' => 'Username',
@@ -75,6 +75,10 @@ return [
         'linked_socialite' => 'Account linked',
 
         'queued' => 'Queued',
+
+        'company' => 'Company',
+        'branch' => 'Branch',
+        'department' => 'Department',
 
         'export' => [
             'exported' => 'File exported',

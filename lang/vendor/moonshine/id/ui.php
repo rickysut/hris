@@ -55,7 +55,7 @@ return [
         'or_socials' => 'or',
     ],
     'resource' => [
-        'system' => 'Sistem',
+        'system' => 'Admin',
         'role' => 'Roles',
         'name' => 'Nama',
         'email' => 'E-mail',
@@ -63,7 +63,7 @@ return [
         'repeat_password' => 'Ulangi katasandi',
         'avatar' => 'Avatar',
         'created_at' => 'Dibuat tg',
-        'admins_title' => 'Admins',
+        'admins_title' => 'Pengguna',
         'role_title' => 'Roles',
         'role_name' => 'Judul',
         'username' => 'Username',
@@ -75,6 +75,10 @@ return [
         'linked_socialite' => 'Account linked',
 
         'queued' => 'Queued',
+
+        'company' => 'Perusahaan',
+        'branch' => 'Cabang',
+        'department' => 'Departemen',
 
         'export' => [
             'exported' => 'File exported',

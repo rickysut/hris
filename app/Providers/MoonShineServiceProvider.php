@@ -11,7 +11,7 @@ use MoonShine\Resources\MoonShineUserRoleResource;
 use MoonShine\Models\MoonshineUserRole;
 use App\MoonShine\Resources\BranchResource;
 use App\MoonShine\Resources\CompanyResource;
-
+use App\MoonShine\Resources\DepartmentResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -22,9 +22,9 @@ class MoonShineServiceProvider extends ServiceProvider
                 MenuItem::make('moonshine::ui.resource.admins_title', new MoonShineUserResource())
                     ->translatable()
                     ->icon('users'),
-                MenuItem::make('moonshine::ui.resource.role_title', new MoonShineUserRoleResource())
-                    ->translatable()
-                    ->icon('bookmark'),
+                // MenuItem::make('moonshine::ui.resource.role_title', new MoonShineUserRoleResource())
+                //     ->translatable()
+                //     ->icon('bookmark'),
 
             ])
             ->translatable()
@@ -32,17 +32,17 @@ class MoonShineServiceProvider extends ServiceProvider
 
 
 
-            MenuItem::make('Company', new CompanyResource())
+            MenuItem::make('moonshine::ui.resource.company', new CompanyResource())
                         ->translatable()
                         ->icon('heroicons.outline.building-office'),
 
-            MenuItem::make('Branch', new BranchResource())
+            MenuItem::make('moonshine::ui.resource.branch', new BranchResource())
                         ->translatable()
                         ->icon('heroicons.outline.building-library'),
 
-            // MenuItem::make('Branch', new BranchResource())
-            //             ->translatable()
-            //             ->icon('heroicons.outline.building-library'),
+            MenuItem::make('moonshine::ui.resource.department', new DepartmentResource())
+                        ->translatable()
+                        ->icon('heroicons.outline.briefcase'),
 
         ]);
     }

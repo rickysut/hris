@@ -3,19 +3,18 @@
 namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Company;
+use App\Models\Department;
 
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
-use MoonShine\Models\MoonshineUser;
 use MoonShine\Fields\Text;
 
-class CompanyResource extends Resource
+class DepartmentResource extends Resource
 {
-	public static string $model = Company::class;
+	public static string $model = Department::class;
 
-	public static string $title = 'Company';
+	public static string $title = 'Department';
 
     public static bool $withPolicy = true;
 
@@ -24,12 +23,7 @@ class CompanyResource extends Resource
 	public function fields(): array
 	{
 		return [
-		    // ID::make()->sortable(),
-            Text::make('Perusahaan', 'Perusahaan', fn($item) => $item->Perusahaan)->sortable(),
-            Text::make('Kode Area', 'kodearea', fn($item) => $item->kodearea)->sortable(),
-            Text::make('Alamat', 'Alamat', fn($item) => $item->Alamat),
-            Text::make('Telpon', 'Telpon', fn($item) => $item->Telpon),
-            Text::make('Fax', 'Faksimili', fn($item) => $item->Faksimili),
+		    Text::make('Department', 'NamaDept', fn($item) => $item->NamaDept)->sortable(),
         ];
 	}
 
