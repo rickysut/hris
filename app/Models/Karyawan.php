@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Multiplication extends Model
+class Karyawan extends Model
 {
     use HasFactory;
 
-    protected $table = 'multiplikasi';
+    protected $table = 'karyawan';
 
-    protected $fillable = [
-        'KDLEMBUR',
-        'NAMALEMBUR',
-    ];
+    protected $primaryKey = 'PIN';
+
+    public $incrementing = false;
 }

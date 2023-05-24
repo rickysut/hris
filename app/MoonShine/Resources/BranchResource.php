@@ -14,6 +14,7 @@ use MoonShine\Models\MoonshineUser;
 class BranchResource extends Resource
 {
 	public static string $model = Branch::class;
+    public string $titleField = 'KDCABANG';
 
     public function title(): string
     {

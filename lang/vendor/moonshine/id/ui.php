@@ -56,7 +56,7 @@ return [
     ],
 
     'subtitle' => [
-        'admins_title' => 'Pengaturan pengguna',
+        'admins_title' => 'Pengaturan administrator',
         // settings
         'company' => 'Info perusahaan',
         'branch' => 'Daftar cabang',
@@ -69,6 +69,8 @@ return [
         //alasan
         'alasan' => 'Daftar alasan',
         'multiplication' => 'Perkalian lembur',
+        'employee' => 'Daftar karyawan',
+        'holiday' => 'Pengaturan hari libur',
     ],
 
     'resource' => [
@@ -80,7 +82,7 @@ return [
         'repeat_password' => 'Ulangi katasandi',
         'avatar' => 'Avatar',
         'created_at' => 'Dibuat tg',
-        'admins_title' => 'Pengguna',
+        'admins_title' => 'Administrator',
         'role_title' => 'Roles',
         'role_name' => 'Judul',
         'username' => 'Username',
@@ -106,6 +108,8 @@ return [
         //alasan
         'alasan' => 'Alasan',
         'multiplication' => 'Multiplikasi',
+        'employee' => 'Karyawan',
+        'holiday' => 'Hari libur',
 
         'export' => [
             'exported' => 'File exported',

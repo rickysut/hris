@@ -3,33 +3,32 @@
 namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Alasan;
+use App\Models\Absensi;
 
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
-use MoonShine\Fields\Number;
-use MoonShine\Fields\Text;
 
-
-class AlasanResource extends Resource
+class AbsensiResource extends Resource
 {
-	public static string $model = Alasan::class;
+	public static string $model = Absensi::class;
 
-    public string $titleField = 'kdAlasan';
+	// public static string $title = 'Karyawan';
+    public string $titleField = 'PIN';
 
     public function title(): string
     {
-        return trans('moonshine::ui.resource.alasan');
+        return trans('moonshine::ui.resource.absensi');
     }
-
 
     public function subTitle(): string
     {
-        return trans('moonshine::ui.subtitle.alasan');
+        return trans('moonshine::ui.subtitle.absensi');
     }
 
     public static bool $withPolicy = true;
+    public static string $orderField = 'PIN';
+    public static string $orderType = 'ASC';
 
     public static array $activeActions = ['show'];
 
@@ -37,10 +36,6 @@ class AlasanResource extends Resource
 	{
 		return [
 		    // ID::make()->sortable(),
-            Text::make('Kode', 'kdAlasan', fn($item) => $item->kdAlasan)->sortable(),
-            Text::make('Keterangan', 'Keterangan', fn($item) => $item->Keterangan)->sortable(),
-            Number::make('Potong Cuti', 'potcuti', fn($item) => $item->potcuti),
-
         ];
 	}
 
@@ -51,7 +46,7 @@ class AlasanResource extends Resource
 
     public function search(): array
     {
-        return ['kdAlasan','Keterangan'];
+        return ['id'];
     }
 
     public function filters(): array

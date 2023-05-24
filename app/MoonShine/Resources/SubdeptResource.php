@@ -4,15 +4,18 @@ namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Subdept;
-
+use Illuminate\Database\Eloquent\Builder;
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
 use MoonShine\Fields\Text;
+use MoonShine\Filters\TextFilter;
 
 class SubdeptResource extends Resource
 {
 	public static string $model = Subdept::class;
+
+    public string $titleField = 'NAMADEPT';
 
     public function title(): string
     {
@@ -50,7 +53,15 @@ class SubdeptResource extends Resource
 
     public function filters(): array
     {
-        return [];
+        return [
+
+            TextFilter::make('Departemen')
+                ->customQuery(fn(Builder $query, $value) => $query->where('NAMADEPT', 'LIKE', "%".$value."%")),
+            TextFilter::make('Nama')
+                ->customQuery(fn(Builder $query, $value) => $query->where('NAMASUB', 'LIKE', "%".$value."%")),
+
+
+        ];
     }
 
     public function actions(): array

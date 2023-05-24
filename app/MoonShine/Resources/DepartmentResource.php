@@ -13,6 +13,7 @@ use MoonShine\Fields\Text;
 class DepartmentResource extends Resource
 {
 	public static string $model = Department::class;
+    public string $titleField = 'NamaDept';
 
     public function title(): string
     {

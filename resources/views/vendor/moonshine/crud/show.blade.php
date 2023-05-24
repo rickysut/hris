@@ -21,4 +21,11 @@
         'item' => $item
     ])
 
+<x-moonshine::link
+:href="$resource->route('index')"
+>
+BACK
+</x-moonshine::link>
+
+
 @endsection

@@ -14,6 +14,8 @@ class JabatanResource extends Resource
 {
 	public static string $model = Jabatan::class;
 
+    public string $titleField = 'Jabatan';
+
     public function title(): string
     {
         return trans('moonshine::ui.resource.jabatan');

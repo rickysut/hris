@@ -16,6 +16,8 @@ class ShiftResource extends Resource
 {
 	public static string $model = Shift::class;
 
+    public string $titleField = 'IDShift';
+
     public function title(): string
     {
         return trans('moonshine::ui.resource.shift');

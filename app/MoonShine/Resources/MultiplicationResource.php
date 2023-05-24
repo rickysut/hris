@@ -15,6 +15,8 @@ class MultiplicationResource extends Resource
 {
 	public static string $model = Multiplication::class;
 
+    public string $titleField = 'KDLEMBUR';
+
 	public function title(): string
     {
         return trans('moonshine::ui.resource.multiplication');

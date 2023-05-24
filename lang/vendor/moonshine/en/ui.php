@@ -56,7 +56,7 @@ return [
     ],
 
     'subtitle' => [
-        'admins_title' => 'Users Management',
+        'admins_title' => 'Admins Management',
         // settings
         'company' => 'Company info',
         'branch' => 'Registered branch',
@@ -69,6 +69,8 @@ return [
         //alasan
         'alasan' => 'Leave codes',
         'multiplication' => 'Multiplication of overtime',
+        'employee' => 'Employee list',
+        'holiday' => 'List of holiday',
     ],
 
     'resource' => [
@@ -80,7 +82,7 @@ return [
         'repeat_password' => 'Repeat password',
         'avatar' => 'Avatar',
         'created_at' => 'Created At',
-        'admins_title' => 'Users',
+        'admins_title' => 'Admins',
         'role_title' => 'Roles',
         'role_name' => 'Title',
         'username' => 'Username',
@@ -106,6 +108,8 @@ return [
         //alasan
         'alasan' => 'Leave Code',
         'multiplication' => 'Multiplication',
+        'employee' => 'Employee',
+        'holiday' => 'Holiday',
 
         'export' => [
             'exported' => 'File exported',

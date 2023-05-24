@@ -16,7 +16,9 @@ use App\MoonShine\Resources\SubdeptResource;
 use App\MoonShine\Resources\JabatanResource;
 use App\MoonShine\Resources\ShiftResource;
 use App\MoonShine\Resources\AlasanResource;
+use App\MoonShine\Resources\HolidayResource;
 use App\MoonShine\Resources\MultiplicationResource;
+use App\MoonShine\Resources\KaryawanResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -57,9 +59,18 @@ class MoonShineServiceProvider extends ServiceProvider
                             ->translatable()
                             ->icon('heroicons.outline.variable'),
 
+                MenuItem::make('moonshine::ui.resource.holiday', new HolidayResource())
+                            ->translatable()
+                            ->icon('heroicons.outline.calendar'),
+
+
             ])
             ->icon('heroicons.outline.cog-6-tooth')
             ->translatable(),
+
+            MenuItem::make('moonshine::ui.resource.employee', new KaryawanResource())
+                    ->translatable()
+                    ->icon('heroicons.outline.users'),
 
 
             MenuItem::make('moonshine::ui.resource.admins_title', new MoonShineUserResource())
