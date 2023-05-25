@@ -8,6 +8,12 @@ use App\Models\Absensi;
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
+use MoonShine\Fields\Checkbox;
+use MoonShine\Fields\Date;
+use MoonShine\Fields\Number;
+use MoonShine\Filters\DateFilter;
+use MoonShine\Filters\TextFilter;
+use MoonShine\Fields\Text;
 
 class AbsensiResource extends Resource
 {
@@ -18,12 +24,12 @@ class AbsensiResource extends Resource
 
     public function title(): string
     {
-        return trans('moonshine::ui.resource.absensi');
+        return trans('moonshine::ui.resource.attendance');
     }
 
     public function subTitle(): string
     {
-        return trans('moonshine::ui.subtitle.absensi');
+        return trans('moonshine::ui.subtitle.attendance');
     }
 
     public static bool $withPolicy = true;
@@ -35,7 +41,13 @@ class AbsensiResource extends Resource
 	public function fields(): array
 	{
 		return [
-		    // ID::make()->sortable(),
+            Text::make('Pin', 'PIN', fn($item) => $item->PIN)->sortable(),
+            Date::make('Tanggal', 'tanggal', fn($item) => $item->tanggal)->format('d-m-Y')->sortable(),
+            Date::make('Masuk', 'masuk', fn($item) => $item->masuk)->withTime()->format('H:i')->sortable(),
+            Date::make('Pulang', 'pulang', fn($item) => $item->pulang)->withTime()->format('H:i')->sortable(),
+            Number::make('Jam Efektif', 'jamefektif', fn($item) => $item->jamefektif)->sortable(),
+            Checkbox::make('Terlambat', 'Terlambat'),
+
         ];
 	}
 
@@ -46,12 +58,15 @@ class AbsensiResource extends Resource
 
     public function search(): array
     {
-        return ['id'];
+        return ['PIN'];
     }
 
     public function filters(): array
     {
-        return [];
+        return [
+            TextFilter::make('PIN', 'PIN'),
+            DateFilter::make('Tanggal', 'tanggal')
+        ];
     }
 
     public function actions(): array

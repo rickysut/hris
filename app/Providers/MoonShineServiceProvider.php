@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+
 use Illuminate\Support\ServiceProvider;
 use MoonShine\MoonShine;
 use MoonShine\Menu\MenuGroup;
@@ -19,6 +20,7 @@ use App\MoonShine\Resources\AlasanResource;
 use App\MoonShine\Resources\HolidayResource;
 use App\MoonShine\Resources\MultiplicationResource;
 use App\MoonShine\Resources\KaryawanResource;
+use App\MoonShine\Resources\AbsensiResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -71,6 +73,10 @@ class MoonShineServiceProvider extends ServiceProvider
             MenuItem::make('moonshine::ui.resource.employee', new KaryawanResource())
                     ->translatable()
                     ->icon('heroicons.outline.users'),
+
+            MenuItem::make('moonshine::ui.resource.attendance', new AbsensiResource())
+                    ->translatable()
+                    ->icon('heroicons.calendar-days'),
 
 
             MenuItem::make('moonshine::ui.resource.admins_title', new MoonShineUserResource())

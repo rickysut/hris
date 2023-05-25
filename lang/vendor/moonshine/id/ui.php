@@ -71,6 +71,7 @@ return [
         'multiplication' => 'Perkalian lembur',
         'employee' => 'Daftar karyawan',
         'holiday' => 'Pengaturan hari libur',
+        'attendance' => 'Data absensi karyawan',
     ],
 
     'resource' => [
@@ -110,6 +111,7 @@ return [
         'multiplication' => 'Multiplikasi',
         'employee' => 'Karyawan',
         'holiday' => 'Hari libur',
+        'attendance' => 'Absensi',
 
         'export' => [
             'exported' => 'File exported',

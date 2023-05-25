@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use MoonshineUser;
+use MoonShine\Models\MoonshineUser;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Models\Absensi;
 

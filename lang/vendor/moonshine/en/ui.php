@@ -71,6 +71,7 @@ return [
         'multiplication' => 'Multiplication of overtime',
         'employee' => 'Employee list',
         'holiday' => 'List of holiday',
+        'attendance' => 'Employee attendance',
     ],
 
     'resource' => [
@@ -110,6 +111,7 @@ return [
         'multiplication' => 'Multiplication',
         'employee' => 'Employee',
         'holiday' => 'Holiday',
+        'attendance' => 'Attendance',
 
         'export' => [
             'exported' => 'File exported',

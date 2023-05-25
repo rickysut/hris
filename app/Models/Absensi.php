@@ -25,6 +25,6 @@ class Absensi extends Model
         'idShift',
         'isLibur',
         'isSabtu',
-        'isSabtu',
+
     ];
 }
