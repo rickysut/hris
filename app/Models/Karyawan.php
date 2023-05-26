@@ -14,4 +14,12 @@ class Karyawan extends Model
     protected $primaryKey = 'PIN';
 
     public $incrementing = false;
+
+    protected $fillable = [
+        'PIN',
+        'NIK',
+        'NAMA',
+        'DEPARTEMEN',
+
+    ];
 }

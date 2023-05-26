@@ -17,7 +17,6 @@ class HolidayResource extends Resource
 {
 	public static string $model = Holiday::class;
 
-	public static string $title = 'Holiday';
     public string $titleField = 'TGLLIBUR';
 
     public function title(): string

@@ -122,5 +122,10 @@ return [
             'file_required' => 'File is required',
             'extension_not_supported' => 'File extension not supported'
         ]
+    ],
+
+    'query' => [
+        'attendance_thismonth' => 'Absen bulan ini',
     ]
+
 ];

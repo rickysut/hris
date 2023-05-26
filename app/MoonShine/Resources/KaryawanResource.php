@@ -16,6 +16,9 @@ use MoonShine\Filters\TextFilter;
 use MoonShine\Filters\DateFilter;
 use MoonShine\Filters\DateRangeFilter;
 use MoonShine\Metrics\ValueMetric;
+use MoonShine\Decorations\Button;
+use MoonShine\Fields\NoInput;
+use Illuminate\Support\Facades\Log;
 
 class KaryawanResource extends Resource
 {
@@ -38,7 +41,7 @@ class KaryawanResource extends Resource
     public static string $orderField = 'PIN';
     public static string $orderType = 'ASC';
 
-    public static array $activeActions = ['show'];
+    public static array $activeActions = ['show', 'edit'];
 
     // public function metrics(): array
     // {
@@ -50,7 +53,11 @@ class KaryawanResource extends Resource
 
 	public function fields(): array
 	{
+
+
 		return [
+
+            NoInput::make('Absen')->link(route("moonshine.absensis.show",  ($this->getItem()->PIN ?? '')), blank: false),
 		    Text::make('PIN', 'PIN', fn($item) => $item->PIN)->sortable(),
 		    Text::make('NIK', 'NIK', fn($item) => $item->NIK)->sortable(),
 		    Text::make('Nama', 'NAMA', fn($item) => $item->NAMA)->sortable(),
@@ -80,6 +87,7 @@ class KaryawanResource extends Resource
     public function filters(): array
     {
         return [
+
             TextFilter::make('PIN', 'PIN'),
             TextFilter::make('NIK', 'NIK'),
             TextFilter::make('Nama')

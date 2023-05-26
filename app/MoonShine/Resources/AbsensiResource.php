@@ -14,12 +14,21 @@ use MoonShine\Fields\Number;
 use MoonShine\Filters\DateFilter;
 use MoonShine\Filters\TextFilter;
 use MoonShine\Fields\Text;
+use MoonShine\Fields\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
+use MoonShine\Filters\BelongsToFilter;
+use MoonShine\FormComponents\PermissionFormComponent;
+use MoonShine\Models\MoonshineUser;
+use MoonShine\Models\MoonshineUserRole;
+use Carbon\Carbon;
+use MoonShine\QueryTags\QueryTag;
+use Illuminate\Support\Facades\Log;
 
 class AbsensiResource extends Resource
 {
 	public static string $model = Absensi::class;
 
-	// public static string $title = 'Karyawan';
+
     public string $titleField = 'PIN';
 
     public function title(): string
@@ -32,16 +41,40 @@ class AbsensiResource extends Resource
         return trans('moonshine::ui.subtitle.attendance');
     }
 
+    public static array $with = ['karyawan'];
     public static bool $withPolicy = true;
     public static string $orderField = 'PIN';
     public static string $orderType = 'ASC';
 
-    public static array $activeActions = ['show'];
+    public static array $activeActions = ['show', 'edit'];
+
+    public function queryTags(): array
+    {
+        $currentDate = Carbon::now();
+        $endDateOfMonth = $currentDate->endOfMonth();
+        $EndDate = $endDateOfMonth->format('Y-m-d');
+
+
+        $dateOf26thLastMonth = $currentDate->subMonthNoOverflow()->setDay(26);
+        $StartDate = $dateOf26thLastMonth->format('Y-m-d');
+        //Log::info([$StartDate, $EndDate]);
+
+        return [
+            QueryTag::make(
+                trans('moonshine::ui.query.attendance_thismonth'), // Tag Title
+                fn() => Absensi::query()->whereBetween('tanggal', [$StartDate, $EndDate]) // Query builder
+            )->icon('bookmark'),
+
+
+        ];
+    }
 
 	public function fields(): array
 	{
 		return [
-            Text::make('Pin', 'PIN', fn($item) => $item->PIN)->sortable(),
+            // Text::make('Pin', 'PIN', fn($item) => $item->PIN)->sortable(),
+            BelongsTo::make('Karyawan', 'karyawan', 'NAMA')
+                ->valuesQuery(fn(Builder $query) => $query->where('PIN', 'PIN'))->sortable(),
             Date::make('Tanggal', 'tanggal', fn($item) => $item->tanggal)->format('d-m-Y')->sortable(),
             Date::make('Masuk', 'masuk', fn($item) => $item->masuk)->withTime()->format('H:i')->sortable(),
             Date::make('Pulang', 'pulang', fn($item) => $item->pulang)->withTime()->format('H:i')->sortable(),
@@ -64,7 +97,7 @@ class AbsensiResource extends Resource
     public function filters(): array
     {
         return [
-            TextFilter::make('PIN', 'PIN'),
+            BelongsToFilter::make('Karyawan',  resource: 'NAMA'),
             DateFilter::make('Tanggal', 'tanggal')
         ];
     }
@@ -75,4 +108,6 @@ class AbsensiResource extends Resource
             FiltersAction::make(trans('moonshine::ui.filters')),
         ];
     }
+
+
 }
