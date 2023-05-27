@@ -25,7 +25,7 @@ class KaryawanResource extends Resource
 	public static string $model = Karyawan::class;
 
 	// public static string $title = 'Karyawan';
-    public string $titleField = 'PIN';
+    public string $titleField = 'NAMA';
 
     public function title(): string
     {
