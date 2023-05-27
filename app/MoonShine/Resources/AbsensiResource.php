@@ -23,6 +23,8 @@ use MoonShine\Models\MoonshineUserRole;
 use Carbon\Carbon;
 use MoonShine\QueryTags\QueryTag;
 use Illuminate\Support\Facades\Log;
+use App\Models\Scopes\CurrentMonthScopes;
+use MoonShine\Filters\DateRangeFilter;
 
 class AbsensiResource extends Resource
 {
@@ -46,9 +48,9 @@ class AbsensiResource extends Resource
     public static string $orderField = 'PIN';
     public static string $orderType = 'ASC';
 
-    public static array $activeActions = ['show', 'edit'];
+    public static array $activeActions = ['show'];
 
-    public function queryTags(): array
+    public function query(): Builder
     {
         $currentDate = Carbon::now();
         $endDateOfMonth = $currentDate->endOfMonth();
@@ -57,17 +59,30 @@ class AbsensiResource extends Resource
 
         $dateOf26thLastMonth = $currentDate->subMonthNoOverflow()->setDay(26);
         $StartDate = $dateOf26thLastMonth->format('Y-m-d');
-        //Log::info([$StartDate, $EndDate]);
-
-        return [
-            QueryTag::make(
-                trans('moonshine::ui.query.attendance_thismonth'), // Tag Title
-                fn() => Absensi::query()->whereBetween('tanggal', [$StartDate, $EndDate]) // Query builder
-            )->icon('bookmark'),
-
-
-        ];
+        return parent::query()
+            ->whereBetween('tanggal', [$StartDate, $EndDate])->orderBy('tanggal');
     }
+
+    // public function queryTags(): array
+    // {
+    //     $currentDate = Carbon::now();
+    //     $endDateOfMonth = $currentDate->endOfMonth();
+    //     $EndDate = $endDateOfMonth->format('Y-m-d');
+
+
+    //     $dateOf26thLastMonth = $currentDate->subMonthNoOverflow()->setDay(26);
+    //     $StartDate = $dateOf26thLastMonth->format('Y-m-d');
+    //     //Log::info([$StartDate, $EndDate]);
+
+    //     return [
+    //         QueryTag::make(
+    //             trans('moonshine::ui.query.attendance_thismonth'), // Tag Title
+    //             fn() => Absensi::query()->whereBetween('tanggal', [$StartDate, $EndDate]) // Query builder
+    //         )->icon('bookmark'),
+
+
+    //     ];
+    // }
 
 	public function fields(): array
 	{
@@ -98,7 +113,7 @@ class AbsensiResource extends Resource
     {
         return [
             BelongsToFilter::make('Karyawan',  resource: 'NAMA'),
-            DateFilter::make('Tanggal', 'tanggal')
+            DateRangeFilter::make('Tanggal', 'tanggal')
         ];
     }
 
