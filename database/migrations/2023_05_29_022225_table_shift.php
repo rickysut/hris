@@ -22,14 +22,8 @@ return new class extends Migration
             $table->boolean('use_break')->default(false);
             $table->time('breakstart');
             $table->time('breakstop');
-            $table->unsignedBigInteger('shift_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('shift_id')
-                ->references('id')
-                ->on('shift')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
         });
     }
 

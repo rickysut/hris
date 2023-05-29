@@ -11,6 +11,13 @@ use MoonShine\Actions\FiltersAction;
 use MoonShine\Fields\Date;
 use MoonShine\Fields\Number;
 use MoonShine\Fields\Text;
+use Illuminate\Database\Eloquent\Builder;
+use MoonShine\Decorations\Block;
+use MoonShine\Decorations\Column;
+use MoonShine\Decorations\Flex;
+use MoonShine\Decorations\Grid;
+use MoonShine\Fields\Checkbox;
+use MoonShine\ItemActions\ItemAction;
 
 class ShiftResource extends Resource
 {
@@ -30,21 +37,63 @@ class ShiftResource extends Resource
 
     public static bool $withPolicy = true;
 
-    public static array $activeActions = ['show'];
+    public static array $activeActions = ['show','create','edit','delete'];
+
+    public function query(): Builder
+    {
+        return parent::query()
+            ->withTrashed();
+    }
+
+    public function trStyles(Model $item, int $index): string
+    {
+        if(!empty($item->deleted_at)) {
+            return 'background: #ffa1b8;';
+        }
+
+        return parent::trStyles($item, $index);
+    }
 
 	public function fields(): array
 	{
 		return [
-		    // ID::make()->sortable(),
-            Text::make('ID', 'IDShift', fn($item) => $item->IDShift)->sortable(),
-            Text::make('Nama', 'NamaShift', fn($item) => $item->NamaShift)->sortable(),
-            Date::make('Awal', 'Awal', fn($item) => $item->Awal)->withTime()->format('H:i'),
-            Date::make('Akhir', 'Akhir', fn($item) => $item->Akhir)->withTime()->format('H:i'),
-            Number::make('Break Lembur', 'BreakLembur', fn($item) => $item->BreakLembur),
-            Date::make('Batas Break', 'BatasBreak', fn($item) => $item->BatasBreak)->withTime()->format('H:i'),
-            Date::make('Break Out', 'BreakOut', fn($item) => $item->BreakOut)->withTime()->format('H:i'),
-            Date::make('Break In', 'BreakIn', fn($item) => $item->BreakIn)->withTime()->format('H:i'),
+            Column::make([
+                Block::make('Umum',[
+                    Grid::make([
+                        Column::make([
+                            Text::make('Code', 'code', fn($item) => $item->code)->sortable(),
+                        ])->columnSpan(6),
+                        Column::make([
+                            Text::make('Nama', 'name', fn($item) => $item->name)->sortable(),
+                        ])->columnSpan(6),
+                    ]),
 
+                    Grid::make([
+                        Column::make([
+                            Date::make('Masuk', 'start', fn($item) => $item->start)->withTime()->format('H:i')
+                            ->hideOnForm(),
+                            Text::make('Masuk', 'start', fn($item) => $item->start)->mask('99:99')->showOnForm(),
+                        ])->columnSpan(6),
+                        Column::make([
+                            Date::make('Pulang', 'stop', fn($item) => $item->stop)->withTime()->format('H:i')
+                            ->hideOnForm(),
+                            Text::make('Pulang', 'stop', fn($item) => $item->stop)->mask('99:99')->showOnForm(),
+                        ])->columnSpan(6),
+                    ]),
+                ]),
+                Block::make('Absen saat istirahat',[
+                    Checkbox::make('Aktifkan', 'use_break', fn($item) => $item->use_break),
+                    Column::make([
+                        Date::make('Start Istirahat', 'breakstart', fn($item) => $item->breakstart)->withTime()->format('H:i')
+                        ->hideOnForm(),
+                    ])->columnSpan(6),
+                    Column::make([
+                        Date::make('Pulang Istirahat', 'breakstop', fn($item) => $item->breakstop)->withTime()->format('H:i')
+                        ->hideOnForm(),
+                    ])->columnSpan(6),
+
+                ])
+            ])->columnSpan(12),
         ];
 	}
 
@@ -55,7 +104,7 @@ class ShiftResource extends Resource
 
     public function search(): array
     {
-        return ['IDShift'];
+        return ['code', 'name'];
     }
 
     public function filters(): array
@@ -67,6 +116,21 @@ class ShiftResource extends Resource
     {
         return [
             FiltersAction::make(trans('moonshine::ui.filters')),
+        ];
+    }
+
+    public function itemActions(): array
+    {
+        return [
+            ItemAction::make('Restore', function (Model $item) {
+                $item->restore();
+            }, 'Retrieved')
+            ->canSee(fn(Model $item) => $item->trashed()),
+
+            ItemAction::make('Trash', function (Model $item) {
+                $item->forceDelete();
+            }, 'Move to trash')
+            ->canSee(fn(Model $item) => $item->trashed())
         ];
     }
 }

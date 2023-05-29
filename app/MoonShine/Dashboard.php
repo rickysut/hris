@@ -27,7 +27,7 @@ class Dashboard extends DashboardScreen
 
                 DashboardBlock::make([
                     ValueMetric::make('Total Karyawan Aktif')
-                    ->value(Karyawan::where('ISAKTIF', 1)->count())->columnSpan(4),
+                    ->value(Karyawan::where('active', true)->count())->columnSpan(4),
                 ]),
         ];
 	}

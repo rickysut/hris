@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('subdepartment', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->unique();
-            $table->unsignedBigInteger('dep_id');
+            $table->unsignedBigInteger('department_id');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('dep_id')
+            $table->foreign('department_id')
                 ->references('id')
                 ->on('department')
                 ->onUpdate('cascade')

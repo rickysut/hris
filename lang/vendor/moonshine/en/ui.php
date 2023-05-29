@@ -102,7 +102,7 @@ return [
         'branch' => 'Branch',
         'department' => 'Department',
         'subdepartment' => 'Sub-Department',
-        'jabatan' => 'Position',
+        'jabatan' => 'Positions',
 
         //shift
         'shift' => 'Shift',

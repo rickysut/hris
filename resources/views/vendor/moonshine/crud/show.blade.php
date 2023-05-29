@@ -24,7 +24,7 @@
 <x-moonshine::link
 :href="$resource->route('index')"
 >
-BACK
+{{ trans('moonshine::ui.back')}}
 </x-moonshine::link>
 
 

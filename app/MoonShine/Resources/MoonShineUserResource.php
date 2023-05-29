@@ -82,7 +82,7 @@ class MoonShineUserResource extends Resource
                             ->allowedExtensions(['jpg', 'png', 'jpeg', 'gif']),
 
                         Date::make(trans('moonshine::ui.resource.created_at'), 'created_at')
-                            ->format("d.m.Y")
+                            ->format("d-m-Y")
                             ->default(now()->toDateTimeString())
                             ->sortable()
                             ->hideOnForm()

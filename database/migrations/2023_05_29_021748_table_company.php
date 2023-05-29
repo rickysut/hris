@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('zipcode')->nullable();
             $table->string('address')->nullable();
-            $table->timestamp('phone')->nullable();
+            $table->string('phone')->nullable();
             $table->string('fax')->nullable();
             $table->string('link')->nullable();
             $table->timestamps();

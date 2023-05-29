@@ -10,6 +10,8 @@ use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
 use MoonShine\Models\MoonshineUser;
 use MoonShine\Fields\Text;
+use Illuminate\Database\Eloquent\Builder;
+use MoonShine\ItemActions\ItemAction;
 
 class CompanyResource extends Resource
 {
@@ -29,17 +31,33 @@ class CompanyResource extends Resource
 
     public static bool $withPolicy = true;
 
-    public static array $activeActions = ['show'];
+    public static array $activeActions = ['show', 'edit', 'delete', 'create'];
+
+    public function query(): Builder
+    {
+        return parent::query()
+            ->withTrashed();
+    }
+
+    public function trStyles(Model $item, int $index): string
+    {
+        if(!empty($item->deleted_at)) {
+            return 'background: #ffa1b8;';
+        }
+
+        return parent::trStyles($item, $index);
+    }
 
 	public function fields(): array
 	{
 		return [
 		    // ID::make()->sortable(),
-            Text::make('Perusahaan', 'Perusahaan', fn($item) => $item->Perusahaan)->sortable(),
-            Text::make('Kode Area', 'kodearea', fn($item) => $item->kodearea)->sortable(),
-            Text::make('Alamat', 'Alamat', fn($item) => $item->Alamat),
-            Text::make('Telpon', 'Telpon', fn($item) => $item->Telpon),
-            Text::make('Fax', 'Faksimili', fn($item) => $item->Faksimili),
+            Text::make( trans('moonshine::company.name'), 'name', fn($item) => $item->name)->sortable(),
+            Text::make( trans('moonshine::company.zipcode'), 'zipcode', fn($item) => $item->zipcode)->sortable(),
+            Text::make( trans('moonshine::company.address'), 'address', fn($item) => $item->address),
+            Text::make( trans('moonshine::company.phone'), 'phone', fn($item) => $item->phone),
+            Text::make('Fax', 'fax', fn($item) => $item->fax),
+            Text::make('Link', 'link', fn($item) => $item->link),
         ];
 	}
 
@@ -50,7 +68,7 @@ class CompanyResource extends Resource
 
     public function search(): array
     {
-        return ['Perusahaan'];
+        return ['name'];
     }
 
     public function filters(): array
@@ -62,6 +80,21 @@ class CompanyResource extends Resource
     {
         return [
             FiltersAction::make(trans('moonshine::ui.filters')),
+        ];
+    }
+
+    public function itemActions(): array
+    {
+        return [
+            ItemAction::make('Restore', function (Model $item) {
+                $item->restore();
+            }, 'Retrieved')
+            ->canSee(fn(Model $item) => $item->trashed()),
+
+            ItemAction::make('Trash', function (Model $item) {
+                $item->forceDelete();
+            }, 'Move to trash')
+            ->canSee(fn(Model $item) => $item->trashed())
         ];
     }
 }
