@@ -9,19 +9,19 @@ class Holiday extends Model
 {
     use HasFactory;
 
-    protected $table = 'harilibur';
+    protected $table = 'holiday';
 
-    protected $primaryKey = 'TGLLIBUR';
+    // protected $primaryKey = 'TGLLIBUR';
 
-    public $incrementing = false;
+    // public $incrementing = false;
 
     protected $fillable = [
-        'TGLLIBUR',
-        'KETERANGAN',
-        'KDLEMBUR',
+        'event_date',
+        'description',
+        'multi_code',
     ];
 
-    public function kode(){
-        return $this->belongsTo(Multiplication::class, 'KDLEMBUR', 'KDLEMBUR');
+    public function multiplication(){
+        return $this->belongsTo(Multiplication::class, 'code', 'multi_code');
     }
 }

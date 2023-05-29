@@ -12,13 +12,12 @@ class Company extends Model
     protected $table = 'company';
 
     protected $fillable = [
-        'Perusahaan',
-        'kodearea',
-        'Alamat',
-        'Telpon',
-        'Faksimili',
-        'web',
-        'ftp',
+        'name',
+        'zipcode',
+        'address',
+        'phone',
+        'fax',
+        'link',
     ];
 
 }

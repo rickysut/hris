@@ -12,17 +12,13 @@ class Shift extends Model
     protected $table = 'shift';
 
     protected $fillable = [
-        'IDShift',
-        'NamaShift',
-        'Awal',
-        'Akhir',
-        'Awal2',
-        'Akhir2',
-        'isTshift',
-        'Istirahat',
-        'BreakLembur',
-        'BatasBreak',
-        'BreakOut',
-        'BreakIn',
+        'code',
+        'name',
+        'start',
+        'stop',
+        'use_break',
+        'breakstart',
+        'breakstop',
+        'shift_id',
     ];
 }

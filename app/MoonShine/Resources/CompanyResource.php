@@ -14,7 +14,7 @@ use MoonShine\Fields\Text;
 class CompanyResource extends Resource
 {
 	public static string $model = Company::class;
-    public string $titleField = 'Perusahaan';
+    public string $titleField = 'name';
 
 
     public function title(): string
