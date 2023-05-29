@@ -23,7 +23,7 @@ class ShiftResource extends Resource
 {
 	public static string $model = Shift::class;
 
-    public string $titleField = 'IDShift';
+    public string $titleField = 'code';
 
     public function title(): string
     {
@@ -59,26 +59,28 @@ class ShiftResource extends Resource
 		return [
             Column::make([
                 Block::make('Umum',[
-                    Grid::make([
-                        Column::make([
-                            Text::make('Code', 'code', fn($item) => $item->code)->sortable(),
-                        ])->columnSpan(6),
-                        Column::make([
-                            Text::make('Nama', 'name', fn($item) => $item->name)->sortable(),
-                        ])->columnSpan(6),
-                    ]),
+                    Column::make([
+                        Grid::make([
+                            Column::make([
+                                Text::make('Code', 'code', fn($item) => $item->code)->sortable(),
+                            ])->columnSpan(6),
+                            Column::make([
+                                Text::make('Nama', 'name', fn($item) => $item->name)->sortable(),
+                            ])->columnSpan(6),
+                        ]),
 
-                    Grid::make([
-                        Column::make([
-                            Date::make('Masuk', 'start', fn($item) => $item->start)->withTime()->format('H:i')
-                            ->hideOnForm(),
-                            Text::make('Masuk', 'start', fn($item) => $item->start)->mask('99:99')->showOnForm(),
-                        ])->columnSpan(6),
-                        Column::make([
-                            Date::make('Pulang', 'stop', fn($item) => $item->stop)->withTime()->format('H:i')
-                            ->hideOnForm(),
-                            Text::make('Pulang', 'stop', fn($item) => $item->stop)->mask('99:99')->showOnForm(),
-                        ])->columnSpan(6),
+                        Grid::make([
+                            Column::make([
+                                Date::make('Masuk', 'start', fn($item) => $item->start)->withTime()->format('H:i')
+                                ->hideOnForm()->showOnIndex(),
+                                Text::make('Masuk', 'start', fn($item) => $item->start)->mask('99:99')->hideOnIndex()->hideOnDetail(),
+                            ])->columnSpan(6),
+                            Column::make([
+                                Date::make('Pulang', 'stop', fn($item) => $item->stop)->withTime()->format('H:i')
+                                ->hideOnForm()->showOnIndex(),
+                                Text::make('Pulang', 'stop', fn($item) => $item->stop)->mask('99:99')->hideOnIndex()->hideOnDetail(),
+                            ])->columnSpan(6),
+                        ]),
                     ]),
                 ]),
                 Block::make('Absen saat istirahat',[
