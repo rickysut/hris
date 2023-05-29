@@ -10,4 +10,9 @@ class Subdept extends Model
     use HasFactory;
 
     protected $table = 'sub';
+
+    protected $fillable = [
+        'NAMASUB',
+        'NAMADEPT',
+    ];
 }

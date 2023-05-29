@@ -10,4 +10,19 @@ class Shift extends Model
     use HasFactory;
 
     protected $table = 'shift';
+
+    protected $fillable = [
+        'IDShift',
+        'NamaShift',
+        'Awal',
+        'Akhir',
+        'Awal2',
+        'Akhir2',
+        'isTshift',
+        'Istirahat',
+        'BreakLembur',
+        'BatasBreak',
+        'BreakOut',
+        'BreakIn',
+    ];
 }

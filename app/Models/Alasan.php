@@ -10,4 +10,11 @@ class Alasan extends Model
     use HasFactory;
 
     protected $table = 'alasan';
+
+    protected $fillable = [
+        'kdAlasan',
+        'Keterangan',
+        'Kolom',
+        'potcuti',
+    ];
 }
