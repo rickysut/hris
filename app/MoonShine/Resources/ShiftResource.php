@@ -25,6 +25,9 @@ class ShiftResource extends Resource
 
     public string $titleField = 'code';
 
+    public static string $orderField = 'id';
+    public static string $orderType = 'ASC';
+
     public function title(): string
     {
         return trans('moonshine::ui.resource.shift');
@@ -84,15 +87,21 @@ class ShiftResource extends Resource
                     ]),
                 ]),
                 Block::make('Absen saat istirahat',[
-                    Checkbox::make('Aktifkan', 'use_break', fn($item) => $item->use_break),
-                    Column::make([
-                        Date::make('Start Istirahat', 'breakstart', fn($item) => $item->breakstart)->withTime()->format('H:i')
+                    Checkbox::make('Absen istrahat', 'use_break', fn($item) => $item->use_break),
+
+                    Grid::make([
+                        Column::make([
+                            Date::make('Start Istirahat', 'breakstart', fn($item) => $item->breakstart)->withTime()->format('H:i')
                         ->hideOnForm(),
-                    ])->columnSpan(6),
-                    Column::make([
-                        Date::make('Pulang Istirahat', 'breakstop', fn($item) => $item->breakstop)->withTime()->format('H:i')
+                        Text::make('Start Istirahat', 'breakstart', fn($item) => $item->breakstart)->mask('99:99')->hideOnIndex()->hideOnDetail(),
+                        ])->columnSpan(6),
+                        Column::make([
+                            Date::make('Selesai Istirahat', 'breakstop', fn($item) => $item->breakstop)->withTime()->format('H:i')
                         ->hideOnForm(),
-                    ])->columnSpan(6),
+                        Text::make('Selesai Istirahat', 'breakstop', fn($item) => $item->breakstop)->mask('99:99')->hideOnIndex()->hideOnDetail(),
+                        ])->columnSpan(6),
+                    ]),
+
 
                 ])
             ])->columnSpan(12),
@@ -101,7 +110,19 @@ class ShiftResource extends Resource
 
 	public function rules(Model $item): array
 	{
-	    return [];
+	    return  [
+            'start' => ['required', 'date_format:H:i'],
+            'stop'  => ['required', 'date_format:H:i'],
+            'breakstart' => ['date_format:H:i'],
+            'breakstop' => ['date_format:H:i'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'start' => 'Invalid time value (HH:NN)',
+        ];
     }
 
     public function search(): array
