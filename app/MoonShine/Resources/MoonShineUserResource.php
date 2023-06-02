@@ -42,7 +42,7 @@ class MoonShineUserResource extends Resource
 
     public function subTitle(): string
     {
-        return trans('moonshine::ui.subtitle.admins_title') .' - Edited';
+        return trans('moonshine::ui.subtitle.admins_title');
     }
 
 

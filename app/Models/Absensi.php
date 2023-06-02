@@ -4,75 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Absensi extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
-    protected $table = 'absensi';
-
-    protected $primaryKey = 'PIN';
-
-    public $incrementing = false;
+    protected $table = 'attendance';
 
     protected $fillable = [
-        'PIN',
+        'karyawan_id',
         'tanggal',
-        'jadwalmasuk',
-        'jadwalpulang',
-        'masuk',
-        'IstirahatIn',
-        'IstirahatOut',
-        'pulang',
-        'lembur',
-        'TotalLembur',
-        'jamefektif',
-        'Terlambat',
-        'PulangAwal',
-        'durasiBreak',
-        'Masuk3',
-        'Pulang3',
-        'Masuk2',
-        'Pulang2',
-        'isManual',
-        'idShift',
-        'keterangan',
-        'isLibur',
-        'isSabtu',
-        'isMulai',
-        'isLembur',
-        'isHadir',
-        'isTelat',
-        'isKalkulasi',
-        'noSPL',
-        'Alasan',
-        'kodearea',
-        'LemburMasuk',
-        'LemburPulang',
-        'isedit',
-        'lastedit',
-        'tunjangan',
-        'LemburMasuk2',
-        'LemburPulang2',
-        'KODE',
-        'isPulangAwal',
-        'Shift',
-        'TShift',
-        'Makan',
-        'Transport',
-        'Holiday',
-        'Lembur1',
-        'Lembur2',
-        'isEditLembur',
-        'KetLembur',
-        'isImport',
-        'BreakLembur',
-        'PotongCuti',
-        'JamNormal',
-        'cuti'
+        'in',
+        'out',
+        'breakin',
+        'breakout',
     ];
 
     public function karyawan(){
-        return $this->belongsTo(Karyawan::class, 'PIN', 'PIN');
+        return $this->belongsTo(Karyawan::class, 'karyawan_id', 'id');
     }
 }

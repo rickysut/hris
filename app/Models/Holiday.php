@@ -4,16 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Holiday extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'holiday';
-
-    // protected $primaryKey = 'TGLLIBUR';
-
-    // public $incrementing = false;
 
     protected $fillable = [
         'event_date',
@@ -22,6 +20,6 @@ class Holiday extends Model
     ];
 
     public function multiplication(){
-        return $this->belongsTo(Multiplication::class, 'code', 'multi_code');
+        return $this->belongsTo(Multiplication::class, 'multi_code', 'id');
     }
 }

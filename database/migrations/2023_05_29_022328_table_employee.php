@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('employee', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('pin')->unique();
-            $table->string('nik')->unique();
+            $table->string('pin');
+            $table->string('nik');
             $table->string('name');
             $table->date('start_date');
             $table->date('end_date')->nullable();

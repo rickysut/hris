@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('attendance', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('pin');
+            $table->unsignedBigInteger('karyawan_id');
             $table->date('tanggal');
-            $table->time('in');
-            $table->time('out');
-            $table->time('breakin');
-            $table->time('breakout');
+            $table->time('in')->nullable();
+            $table->time('out')->nullable();
+            $table->time('breakout')->nullable();
+            $table->time('breakin')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

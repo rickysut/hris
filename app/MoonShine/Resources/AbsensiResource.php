@@ -15,7 +15,6 @@ use MoonShine\Filters\DateFilter;
 use MoonShine\Filters\TextFilter;
 use MoonShine\Fields\Text;
 use MoonShine\Fields\BelongsTo;
-use Illuminate\Database\Eloquent\Builder;
 use MoonShine\Filters\BelongsToFilter;
 use MoonShine\FormComponents\PermissionFormComponent;
 use MoonShine\Models\MoonshineUser;
@@ -25,13 +24,18 @@ use MoonShine\QueryTags\QueryTag;
 use Illuminate\Support\Facades\Log;
 use App\Models\Scopes\CurrentMonthScopes;
 use MoonShine\Filters\DateRangeFilter;
+use MoonShine\ItemActions\ItemAction;
+use Illuminate\Database\Eloquent\Builder;
 
 class AbsensiResource extends Resource
 {
 	public static string $model = Absensi::class;
 
+    public string $titleField = 'name';
 
-    public string $titleField = 'PIN';
+    public static string $orderField = 'tanggal';
+
+    public static string $orderType = 'DESC';
 
     public function title(): string
     {
@@ -43,12 +47,9 @@ class AbsensiResource extends Resource
         return trans('moonshine::ui.subtitle.attendance');
     }
 
-    public static array $with = ['karyawan'];
     public static bool $withPolicy = true;
-    public static string $orderField = 'PIN';
-    public static string $orderType = 'ASC';
 
-    public static array $activeActions = ['show'];
+    public static array $activeActions = ['show', 'create'];
 
     public function query(): Builder
     {
@@ -60,42 +61,24 @@ class AbsensiResource extends Resource
         $dateOf26thLastMonth = $currentDate->subMonthNoOverflow()->setDay(26);
         $StartDate = $dateOf26thLastMonth->format('Y-m-d');
         return parent::query()
-            ->whereBetween('tanggal', [$StartDate, $EndDate])->orderBy('tanggal');
+            ->whereBetween('tanggal', [$StartDate, $EndDate]);
     }
 
-    // public function queryTags(): array
-    // {
-    //     $currentDate = Carbon::now();
-    //     $endDateOfMonth = $currentDate->endOfMonth();
-    //     $EndDate = $endDateOfMonth->format('Y-m-d');
-
-
-    //     $dateOf26thLastMonth = $currentDate->subMonthNoOverflow()->setDay(26);
-    //     $StartDate = $dateOf26thLastMonth->format('Y-m-d');
-    //     //Log::info([$StartDate, $EndDate]);
-
-    //     return [
-    //         QueryTag::make(
-    //             trans('moonshine::ui.query.attendance_thismonth'), // Tag Title
-    //             fn() => Absensi::query()->whereBetween('tanggal', [$StartDate, $EndDate]) // Query builder
-    //         )->icon('bookmark'),
-
-
-    //     ];
-    // }
 
 	public function fields(): array
 	{
 		return [
             // Text::make('Pin', 'PIN', fn($item) => $item->PIN)->sortable(),
-            BelongsTo::make('Karyawan', 'karyawan', 'NAMA')
-                ->valuesQuery(fn(Builder $query) => $query->where('PIN', 'PIN'))->sortable(),
+            BelongsTo::make('Karyawan', 'karyawan', 'name')->sortable(),
             Date::make('Tanggal', 'tanggal', fn($item) => $item->tanggal)->format('d-m-Y')->sortable(),
-            Date::make('Masuk', 'masuk', fn($item) => $item->masuk)->withTime()->format('H:i')->sortable(),
-            Date::make('Pulang', 'pulang', fn($item) => $item->pulang)->withTime()->format('H:i')->sortable(),
-            Number::make('Jam Efektif', 'jamefektif', fn($item) => $item->jamefektif)->sortable(),
-            Checkbox::make('Terlambat', 'Terlambat'),
-
+            Date::make('Masuk', 'in', fn($item) => $item->in)->withTime()->format('H:i')->sortable()->hideOnForm(),
+            Text::make('Masuk', 'in')->mask('99:99')->hideOnIndex(),
+            Date::make('Pulang', 'out', fn($item) => $item->out)->withTime()->format('H:i')->sortable()->hideOnForm(),
+            Text::make('Pulang', 'out')->mask('99:99')->hideOnIndex(),
+            Date::make('Keluar istirahat', 'breakout', fn($item) => $item->breakin)->withTime()->format('H:i')->sortable()->hideOnForm(),
+            Text::make('Keluar istirahat', 'breakout')->mask('99:99')->hideOnIndex(),
+            Date::make('Masuk istirahat', 'breakin', fn($item) => $item->breakout)->withTime()->format('H:i')->sortable()->hideOnForm(),
+            Text::make('Masuk istirahat', 'breakin')->mask('99:99')->hideOnIndex(),
         ];
 	}
 
@@ -106,13 +89,13 @@ class AbsensiResource extends Resource
 
     public function search(): array
     {
-        return ['PIN'];
+        return ['karyawan_id'];
     }
 
     public function filters(): array
     {
         return [
-            BelongsToFilter::make('Karyawan',  resource: 'NAMA'),
+            BelongsToFilter::make('Karyawan',  resource: 'name')->searchable(),
             DateRangeFilter::make('Tanggal', 'tanggal')
         ];
     }
@@ -124,5 +107,19 @@ class AbsensiResource extends Resource
         ];
     }
 
+    public function itemActions(): array
+    {
+        return [
+            ItemAction::make('Restore', function (Model $item) {
+                $item->restore();
+            }, 'Retrieved')
+            ->canSee(fn(Model $item) => $item->trashed()),
+
+            ItemAction::make('Trash', function (Model $item) {
+                $item->forceDelete();
+            }, 'Move to trash')
+            ->canSee(fn(Model $item) => $item->trashed())
+        ];
+    }
 
 }

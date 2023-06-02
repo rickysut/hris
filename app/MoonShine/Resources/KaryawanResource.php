@@ -19,13 +19,21 @@ use MoonShine\Metrics\ValueMetric;
 use MoonShine\Decorations\Button;
 use MoonShine\Fields\NoInput;
 use Illuminate\Support\Facades\Log;
+use MoonShine\Fields\BelongsTo;
+use MoonShine\Fields\Date;
+use App\Models\Jabatan;
+use MoonShine\ItemActions\ItemAction;
+
 
 class KaryawanResource extends Resource
 {
 	public static string $model = Karyawan::class;
 
-	// public static string $title = 'Karyawan';
-    public string $titleField = 'NAMA';
+	public string $titleField = 'name';
+
+    public static string $orderField = 'name';
+
+    public static string $orderType = 'ASC';
 
     public function title(): string
     {
@@ -38,39 +46,43 @@ class KaryawanResource extends Resource
     }
 
     public static bool $withPolicy = true;
-    public static string $orderField = 'PIN';
-    public static string $orderType = 'ASC';
 
-    public static array $activeActions = ['show', 'edit'];
+    public static array $activeActions = ['show','create','edit','delete'];
 
-    // public function metrics(): array
-    // {
-    //     return [
-    //         ValueMetric::make('Total Karyawan')
-    //             ->value(Karyawan::where('ISAKTIF', '1')->count())
-    //     ];
-    // }
+    public function query(): Builder
+    {
+        return parent::query()
+            ->withTrashed();
+    }
+
+    public function trStyles(Model $item, int $index): string
+    {
+        if(!empty($item->deleted_at)) {
+            return 'background: #ffa1b8;';
+        }
+
+        return parent::trStyles($item, $index);
+    }
 
 	public function fields(): array
 	{
-
-
 		return [
+		    Text::make('Pin', 'pin', fn($item) => $item->pin)
+                ->sortable(),
 
-            NoInput::make('Absen')->link(route("moonshine.absensis.show",  ($this->getItem()->PIN ?? '')), blank: false),
-		    Text::make('PIN', 'PIN', fn($item) => $item->PIN)->sortable(),
-		    Text::make('NIK', 'NIK', fn($item) => $item->NIK)->sortable(),
-		    Text::make('Nama', 'NAMA', fn($item) => $item->NAMA)->sortable(),
-		    Text::make('Departemen', 'DEPARTEMEN', fn($item) => $item->DEPARTEMEN)->sortable(),
-		    Text::make('Sub-Dep', 'SUB', fn($item) => $item->SUB)->sortable(),
-		    Text::make('Jabatan', 'Jabatan', fn($item) => $item->Jabatan),
-		    Text::make('Kode Cabang', 'KDCABANG', fn($item) => $item->KDCABANG),
-            // Number::make('Aktif', 'ISAKTIF', fn($item) => $item->ISAKTIF),
-            // SwitchBoolean::make('Aktif', 'ISAKTIF')
-            // ->onValue(1) // Active value of a form element
-            // ->offValue(0) // Inactive value of a form element
-            // ->autoUpdate(false),
-            Checkbox::make('Aktif', 'ISAKTIF')
+		    Text::make('Nama', 'name', fn($item) => $item->name)->sortable(),
+		    Date::make('Masuk tgl', 'start_date', fn($item) => $item->start_date)->format('d/m/Y')->sortable(),
+            Date::make('Berhenti tgl', 'end_date', fn($item) => $item->end_date)->format('d/m/Y')->sortable(),
+            SwitchBoolean::make('Aktif', 'active')
+                ->onValue(1)
+                ->offValue(0)
+                ->autoUpdate(false),
+            BelongsTo::make('Company', 'company', 'name')->sortable()->searchable(),
+            BelongsTo::make('Branch', 'branch', 'name' )->sortable()->searchable(),
+            BelongsTo::make('Department', 'department', 'name' )->sortable()->searchable(),
+            BelongsTo::make('Sub-Department', 'subdept', 'name' )->sortable()->searchable(),
+            BelongsTo::make('Position', 'position', 'name' )->sortable()->searchable(),
+            BelongsTo::make('Shift', 'shift', 'name' )->sortable()->searchable(),
         ];
 	}
 
@@ -81,20 +93,17 @@ class KaryawanResource extends Resource
 
     public function search(): array
     {
-        return ['PIN', 'NIK', 'NAMA'];
+        return ['pin',  'name'];
     }
 
     public function filters(): array
     {
         return [
 
-            TextFilter::make('PIN', 'PIN'),
-            TextFilter::make('NIK', 'NIK'),
+            TextFilter::make('PIN', 'pin'),
             TextFilter::make('Nama')
-                ->customQuery(fn(Builder $query, $value) => $query->where('NAMA', 'LIKE', "%".$value."%")),
-            // DateFilter::make('Tgl. Bergabung', 'alokasiawal'),
-            // DateRangeFilter::make('Tgl. Bergabung','alokasiawal')
-            //     ->format('YmdHis'),
+                ->customQuery(fn(Builder $query, $value) => $query->where('name', 'LIKE', "%".$value."%")),
+
 
         ];
     }
@@ -103,6 +112,21 @@ class KaryawanResource extends Resource
     {
         return [
             FiltersAction::make(trans('moonshine::ui.filters')),
+        ];
+    }
+
+    public function itemActions(): array
+    {
+        return [
+            ItemAction::make('Restore', function (Model $item) {
+                $item->restore();
+            }, 'Retrieved')
+            ->canSee(fn(Model $item) => $item->trashed()),
+
+            ItemAction::make('Trash', function (Model $item) {
+                $item->forceDelete();
+            }, 'Move to trash')
+            ->canSee(fn(Model $item) => $item->trashed())
         ];
     }
 }
