@@ -24,6 +24,8 @@ use MoonShine\FormComponents\PermissionFormComponent;
 use MoonShine\Models\MoonshineUser;
 use MoonShine\Models\MoonshineUserRole;
 use MoonShine\Traits\Resource\WithUserPermissions;
+use MoonShine\Resources\Resource;
+use MoonShine\Resources\MoonShineUserRoleResource;
 
 class MoonShineUserResource extends Resource
 {
@@ -55,7 +57,8 @@ class MoonShineUserResource extends Resource
                         ID::make()
                             ->sortable()
                             ->useOnImport()
-                            ->showOnExport(),
+                            ->showOnExport()
+                            ->hideOnIndex(),
 
                         BelongsTo::make(
                             trans('moonshine::ui.resource.role'),

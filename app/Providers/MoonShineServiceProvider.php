@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use MoonShine\MoonShine;
 use MoonShine\Menu\MenuGroup;
 use MoonShine\Menu\MenuItem;
-use MoonShine\Resources\MoonShineUserResource;
+// use MoonShine\Resources\MoonShineUserResource;
 use MoonShine\Resources\MoonShineUserRoleResource;
 use MoonShine\Models\MoonshineUserRole;
 use App\MoonShine\Resources\BranchResource;
@@ -21,6 +21,7 @@ use App\MoonShine\Resources\HolidayResource;
 use App\MoonShine\Resources\MultiplicationResource;
 use App\MoonShine\Resources\KaryawanResource;
 use App\MoonShine\Resources\AbsensiResource;
+use App\MoonShine\Resources\MoonShineUserResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
