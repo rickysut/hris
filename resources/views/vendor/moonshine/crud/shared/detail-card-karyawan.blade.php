@@ -1,5 +1,6 @@
+
 <x-moonshine::box
-        title="#{{ $item->{$resource->titleField()} ?? $item->getKey() ?? trans('moonshine::ui.create') }}"
+        title="#{{ $item->getKey() }}"
 >
     <x-moonshine::table>
         <x-slot:tbody>
@@ -19,8 +20,17 @@
     @include("moonshine::crud.shared.detail-card-actions", ["item" => $item, "resource" => $resource])
 @endif
 
+
 @foreach($resource->getFields()->relatable() as $field)
     @if($field->canDisplayOnForm($item))
         {{ $resource->renderComponent($field, $item) }}
     @endif
 @endforeach
+
+@if($resource->componentsCollection()->detailComponents()->isNotEmpty())
+    @foreach($resource->componentsCollection()->detailComponents() as $detailComponent)
+        @if($detailComponent->isSee($item))
+            {{ $resource->renderComponent($detailComponent, $item) }}
+        @endif
+    @endforeach
+@endif

@@ -6,8 +6,11 @@ namespace MoonShine\Fields;
 
 use Closure;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Stringable;
 use Illuminate\Support\Traits\Conditionable;
 use MoonShine\Contracts\Fields\HasAssets;
+use MoonShine\Contracts\Fields\HasCurrentResource;
+use MoonShine\Contracts\Fields\HasDefaultValue;
 use MoonShine\Contracts\Fields\HasFields;
 use MoonShine\Contracts\Fields\Relationships\BelongsToRelation;
 use MoonShine\Contracts\Fields\Relationships\HasRelatedValues;
@@ -31,6 +34,8 @@ use MoonShine\Traits\WithView;
 use MoonShine\Utilities\AssetManager;
 
 /**
+ * @method static static make(string|null $label = null, string|null $field = null, Closure|ResourceContract|string|null $resource = null)
+ *
  * @mixin WithResourceMode
  * @mixin WithRelatedValues
  */
@@ -60,8 +65,6 @@ abstract class FormElement implements ResourceRenderable, HasAssets
 
     protected ?Closure $valueCallback = null;
 
-    protected ?string $default = null;
-
     protected bool $nullable = false;
 
     protected bool $fieldContainer = true;
@@ -70,6 +73,8 @@ abstract class FormElement implements ResourceRenderable, HasAssets
      * @deprecated Will be deleted
      */
     protected bool $fullWidth = false;
+
+    protected ?string $parentRequestValueKey = null;
 
     final public function __construct(
         string $label = null,
@@ -101,7 +106,7 @@ abstract class FormElement implements ResourceRenderable, HasAssets
             }
 
             if ($resource instanceof ResourceContract) {
-                $this->setResource($resource);
+                $this->setResource($resource->relatable());
             } elseif (is_string($resource)) {
                 $this->setResourceTitleField($resource);
             }
@@ -172,6 +177,29 @@ abstract class FormElement implements ResourceRenderable, HasAssets
         $this->resource = $resource;
     }
 
+    public function setResources(ResourceContract $resource): static
+    {
+        if ($this instanceof HasFields) {
+            $fields = [];
+
+            foreach ($this->getFields() as $field) {
+                $field = $field->setResources($resource);
+
+                if ($field instanceof HasCurrentResource) {
+                    $field->setResource($resource);
+                }
+
+                $fields[] = $field;
+            }
+
+            $this->fields($fields);
+        } elseif ($this instanceof HasCurrentResource) {
+            $this->setResource($resource);
+        }
+
+        return $this;
+    }
+
     public function resourceTitleField(): string
     {
         if ($this->resourceTitleField) {
@@ -198,20 +226,6 @@ abstract class FormElement implements ResourceRenderable, HasAssets
     protected function setValueCallback(Closure $valueCallback): void
     {
         $this->valueCallback = $valueCallback;
-    }
-
-    public function default(string $default): static
-    {
-        $this->default = $default;
-
-        return $this;
-    }
-
-    public function getDefault(): ?string
-    {
-        $value = old($this->nameDot(), $this->default);
-
-        return is_array($value) ? null : $value;
     }
 
     public function nullable($condition = null): static
@@ -336,11 +350,34 @@ abstract class FormElement implements ResourceRenderable, HasAssets
         return $model->{$this->relation()}()->getRelated();
     }
 
-    public function requestValue(): mixed
+    public function setParentRequestValueKey(?string $key): static
     {
-        return request(
-            $this->nameDot(),
-            $this->getDefault() ?? old($this->nameDot(), false)
-        );
+        $this->parentRequestValueKey = $key;
+
+        return $this;
+    }
+
+    public function parentRequestValueKey(): ?string
+    {
+        return $this->parentRequestValueKey;
+    }
+
+    public function requestValue(string|int|null $index = null): mixed
+    {
+        $nameDot = str($this->isXModelField() ? $this->field() : $this->nameDot())
+            ->when(
+                $this->parentRequestValueKey(),
+                fn (Stringable $str) => $str->prepend("{$this->parentRequestValueKey()}.")
+            )
+            ->when(
+                ! is_null($index) && $index !== '',
+                fn (Stringable $str) => $str->append(".$index")
+            )->value();
+
+        $default = $this instanceof HasDefaultValue
+            ? $this->getDefault()
+            : false;
+
+        return request($nameDot, $default) ?? false;
     }
 }

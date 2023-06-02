@@ -51,6 +51,7 @@ class AbsensiResource extends Resource
 
     public static array $activeActions = ['show', 'create'];
 
+
     public function query(): Builder
     {
         $currentDate = Carbon::now();

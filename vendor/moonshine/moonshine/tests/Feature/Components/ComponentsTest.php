@@ -343,10 +343,13 @@ it('tabs', function () {
     $contents = ['tab_1' => 'Content 1', 'tab_2' => 'Content 2'];
 
     test()
-        ->blade('<x-moonshine::tabs
+        ->blade(
+            '<x-moonshine::tabs
             :tabs="$tabs"
             :contents="$contents"
-        />', ['tabs' => $tabs, 'contents' => $contents])
+        />',
+            ['tabs' => $tabs, 'contents' => $contents]
+        )
         ->assertSee('tabs-button')
         ->assertSeeInOrder($tabs)
         ->assertSeeInOrder($contents);
@@ -356,7 +359,8 @@ it('card', function () {
     $values = ['ID' => 'Content ID', 'Title' => 'Content Title'];
 
     test()
-        ->blade('<x-moonshine::card
+        ->blade(
+            '<x-moonshine::card
             :overlay="$overlay"
             url="/url-to-moonshine"
             title="Testing"
@@ -368,7 +372,9 @@ it('card', function () {
             <x-slot:header>Header here</x-slot:header>
 
             Slot here
-        </x-moonshine::card>', ['overlay' => true, 'values' => $values])
+        </x-moonshine::card>',
+            ['overlay' => true, 'values' => $values]
+        )
         ->assertSee('/url-to-moonshine')
         ->assertSee('Testing')
         ->assertSee('Sub title')
@@ -378,4 +384,133 @@ it('card', function () {
         ->assertSee('Slot here')
         ->assertSeeInOrder(array_keys($values))
         ->assertSeeInOrder($values);
+});
+
+it('boolean', function () {
+    test()
+        ->blade('<x-moonshine::boolean />', [])
+        ->assertSee('bg-green-500');
+
+    test()
+        ->blade('<x-moonshine::boolean :value="$value" />', ['value' => true])
+        ->assertSee('bg-green-500');
+
+    test()
+        ->blade('<x-moonshine::boolean :value="$value" />', ['value' => false])
+        ->assertSee('bg-red-500');
+});
+
+it('breadcrumbs', function () {
+    $items = [
+        '/' => 'Home page',
+        '/test' => 'Current page',
+    ];
+
+    test()
+        ->blade('<x-moonshine::breadcrumbs :items="$items" />', ['items' => $items])
+        ->assertSee('breadcrumbs-list')
+        ->assertSeeInOrder($items);
+});
+
+it('divider', function () {
+    test()
+        ->blade('<x-moonshine::divider label="Test" />')
+        ->assertSee('Test');
+
+    test()
+        ->blade('<x-moonshine::divider />')
+        ->assertSee('hr');
+});
+
+it('rating', function () {
+    test()
+        ->blade('<x-moonshine::rating value="5" />')
+        ->assertSee('svg');
+});
+
+it('title', function () {
+    test()
+        ->blade('<x-moonshine::title>Title</x-moonshine::title>')
+        ->assertSee('h1')
+        ->assertSee('Title');
+});
+
+it('pagination', function () {
+    MoonshineUser::factory(20)->create();
+    $items = MoonshineUser::query()->paginate(10);
+
+    test()
+        ->blade('<x-moonshine::pagination
+                :paginator="$paginator"
+                :elements="$elements"
+        />', [
+            'paginator' => $items,
+            'elements' => $items->linkCollection(),
+        ])
+        ->assertSee('pagination')
+        ->assertSee('pagination-item');
+});
+
+it('collapse', function () {
+    test()
+        ->blade('<x-moonshine::collapse
+                title="Collapse component"
+        />')
+        ->assertSee('Collapse component');
+});
+
+it('progress', function () {
+    test()
+        ->blade('<x-moonshine::progress-bar
+                value="20"
+        />')
+        ->assertSee('20%');
+});
+
+it('tooltip', function () {
+    test()
+        ->blade('<x-moonshine::tooltip content="Tooltip content">
+            <button>Trigger</button>
+        </x-moonshine:tooltip>
+        ')
+        ->assertSee('Trigger')
+        ->assertSee('Tooltip content');
+});
+
+it('popover', function () {
+    test()
+        ->blade('<x-moonshine::popover title="Popover title">
+            <x-slot:trigger>
+                <button>Trigger</button>
+            </x-slot:trigger>
+            Popover content
+        </x-moonshine:tooltip>
+        ')
+        ->assertSee('Popover title')
+        ->assertSee('Trigger')
+        ->assertSee('Popover content');
+});
+
+it('spinner', function () {
+    test()
+        ->blade('<x-moonshine::spinner />')
+        ->assertSee('spinner');
+
+    test()
+        ->blade('<x-moonshine::spinner
+            size="md"
+            color="purple"
+            :fixed="true"
+            :absolute="true"
+        />')
+        ->assertSee('spinner--purple')
+        ->assertSee('spinner-fixed')
+        ->assertSee('spinner-absolute')
+        ->assertSee('spinner-md');
+});
+
+it('toast', function () {
+    test()
+        ->blade('<x-moonshine::toast content="Toast content"/>')
+        ->assertSee('Toast content');
 });

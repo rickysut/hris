@@ -6,11 +6,15 @@ namespace MoonShine\Fields;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use MoonShine\Contracts\Fields\DefaultValueTypes\DefaultCanBeArray;
+use MoonShine\Contracts\Fields\Fileable;
+use MoonShine\Contracts\Fields\HasDefaultValue;
 use MoonShine\Contracts\Fields\HasFields;
 use MoonShine\Contracts\Fields\HasFullPageMode;
 use MoonShine\Contracts\Fields\HasJsonValues;
 use MoonShine\Contracts\Fields\HasValueExtraction;
 use MoonShine\Contracts\Fields\RemovableContract;
+use MoonShine\Traits\Fields\WithDefaultValue;
 use MoonShine\Traits\Fields\WithFullPageMode;
 use MoonShine\Traits\Fields\WithJsonValues;
 use MoonShine\Traits\Removable;
@@ -22,12 +26,15 @@ class Json extends Field implements
     HasJsonValues,
     HasFullPageMode,
     RemovableContract,
-    HasValueExtraction
+    HasValueExtraction,
+    HasDefaultValue,
+    DefaultCanBeArray
 {
     use WithJsonValues;
     use WithFields;
     use WithFullPageMode;
     use Removable;
+    use WithDefaultValue;
 
     protected static string $view = 'moonshine::fields.json';
 
@@ -58,6 +65,9 @@ class Json extends Field implements
         return $this->keyValue;
     }
 
+    /**
+     * @throws Throwable
+     */
     public function save(Model $item): Model
     {
         if ($this->requestValue() === false) {
@@ -66,11 +76,28 @@ class Json extends Field implements
             return $item;
         }
 
-        $item->{$this->field()} = $this->mapKeyValue(collect($this->requestValue()));
+        $requestValues = $this->requestValue();
+
+        foreach ($requestValues as $index => $values) {
+            foreach ($this->getFields() as $field) {
+                if ($field instanceof Fileable) {
+                    $field->setParentRequestValueKey($this->field().".".$index);
+
+                    $requestValues[$index][$field->field()] = $field->hasManyOrOneSave(
+                        $values[$field->field()] ?? null
+                    );
+                }
+            }
+        }
+
+        $item->{$this->field()} = $this->mapKeyValue(collect($requestValues));
 
         return $item;
     }
 
+    /**
+     * @throws Throwable
+     */
     protected function mapKeyValue(Collection $collection): array
     {
         if ($this->hasFields()) {

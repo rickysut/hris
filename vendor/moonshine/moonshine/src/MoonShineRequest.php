@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\RedirectResponse;
 use MoonShine\Resources\Resource;
+use Throwable;
 
 class MoonShineRequest extends FormRequest
 {
@@ -22,9 +23,17 @@ class MoonShineRequest extends FormRequest
 
     public function messages(): array
     {
-        return trans('moonshine::validation');
+        return array_merge(
+            trans('moonshine::validation'),
+            $this->hasResource()
+                ? $this->getResource()->validationMessages()
+                : [],
+        );
     }
 
+    /**
+     * @throws Throwable
+     */
     public function attributes(): array
     {
         return $this->hasResource()
@@ -63,6 +72,11 @@ class MoonShineRequest extends FormRequest
         }
 
         return $this->resource;
+    }
+
+    public function getIdBySegment(): ?string
+    {
+        return $this->segment(4);
     }
 
     public function getId(): ?string
@@ -119,21 +133,6 @@ class MoonShineRequest extends FormRequest
         return $this->route('index');
     }
 
-    public function isRelatableMode(): bool
-    {
-        return $this->hasAny(['relatable_mode', 'redirect_back']) || $this->hasAny(['related_column', 'related_key']);
-    }
-
-    public function relatedColumn(): ?string
-    {
-        return $this->get('related_column');
-    }
-
-    public function relatedKey(): ?string
-    {
-        return $this->get('related_key');
-    }
-
     public function redirectRoute(string $default): RedirectResponse
     {
         $redirectRoute = redirect($default);
@@ -143,6 +142,12 @@ class MoonShineRequest extends FormRequest
         }
 
         return $redirectRoute;
+    }
+
+    public function isRelatableMode(): bool
+    {
+        return $this->getResource()->isRelatable()
+            || $this->has('relatable_mode');
     }
 
     public function user($guard = null)

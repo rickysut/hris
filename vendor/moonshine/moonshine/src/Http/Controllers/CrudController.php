@@ -6,17 +6,10 @@ namespace MoonShine\Http\Controllers;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Validation\ValidationException;
 use MoonShine\Exceptions\ResourceException;
 use MoonShine\Http\Requests\Resources\CreateFormRequest;
 use MoonShine\Http\Requests\Resources\DeleteFormRequest;
@@ -27,19 +20,13 @@ use MoonShine\Http\Requests\Resources\UpdateFormRequest;
 use MoonShine\Http\Requests\Resources\ViewAnyFormRequest;
 use MoonShine\Http\Requests\Resources\ViewFormRequest;
 use MoonShine\MoonShineRequest;
+use MoonShine\MoonShineUI;
 use MoonShine\QueryTags\QueryTag;
-use MoonShine\Resources\Resource;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
 class CrudController extends BaseController
 {
-    use AuthorizesRequests;
-    use DispatchesJobs;
-    use ValidatesRequests;
-
-    protected Resource $resource;
-
     public function __construct()
     {
         $this->middleware(HandlePrecognitiveRequests::class)
@@ -63,35 +50,24 @@ class CrudController extends BaseController
         if (request()->ajax()) {
             abort_if(! $request->isRelatableMode(), ResponseAlias::HTTP_NOT_FOUND);
 
-            $resource->relatable(
-                $request->relatedColumn(),
-                $request->relatedKey()
-            );
+            $resource->relatable();
         }
 
         $actions = $resource->getActions();
 
         try {
-            $view = view($resource->baseIndexView(), [
+            $resources = $resource->isPaginationUsed()
+                ? $resource->paginate()
+                : $resource->items();
+
+            return $this->viewOrFragment(view($resource->baseIndexView(), [
                 'resource' => $resource,
-                'resources' => $resource->paginate(),
+                'resources' => $resources,
                 'filters' => $resource->filters(),
                 'dropdownActions' => $actions->inDropdown(),
                 'lineActions' => $actions->inLine(),
                 'metrics' => $resource->metrics(),
-            ]);
-
-            if ($request->hasHeader('X-Fragment')) {
-                return $view->fragment($request->header('X-Fragment'));
-            }
-
-            if (request()->ajax()) {
-                $sections = $view->renderSections();
-
-                return $sections['content'] ?? '';
-            }
-
-            return $view;
+            ]));
         } catch (Throwable $e) {
             throw_if(! app()->isProduction(), $e);
             report_if(app()->isProduction(), $e);
@@ -128,10 +104,10 @@ class CrudController extends BaseController
      */
     public function show(ViewFormRequest $request): string|View|RedirectResponse
     {
-        return view($request->getResource()->baseShowView(), [
+        return $this->viewOrFragment(view($request->getResource()->baseShowView(), [
             'resource' => $request->getResource(),
             'item' => $request->getItem(),
-        ]);
+        ]));
     }
 
     /**
@@ -156,47 +132,28 @@ class CrudController extends BaseController
     {
         $request->getResource()->delete($request->getItem());
 
-        return $request->redirectRoute($request->getResource()->route('index'))
-            ->with('alert', trans('moonshine::ui.deleted'));
+        MoonShineUI::toast(
+            __('moonshine::ui.deleted'),
+            'success'
+        );
+
+        return $request->redirectRoute(
+            $request->getResource()->route('index')
+        );
     }
 
     public function massDelete(MassDeleteFormRequest $request): RedirectResponse
     {
         $request->getResource()->massDelete($request->get('ids'));
 
-        return $request->redirectRoute($request->getResource()->route('index'))
-            ->with('alert', trans('moonshine::ui.deleted'));
-    }
+        MoonShineUI::toast(
+            __('moonshine::ui.deleted'),
+            'success'
+        );
 
-    public function updateColumn(Request $request): Response
-    {
-        $request->validate([
-            'model' => ['required', 'string'],
-            'key' => ['required'],
-            'field' => ['required'],
-            'value' => ['required'],
-        ]);
-
-        $class = $request->get('model');
-
-        if (! class_exists($class)) {
-            ValidationException::withMessages([
-                'model' => 'Model not found',
-            ]);
-        }
-
-        $model = new $class();
-
-        if (in_array(SoftDeletes::class, class_uses_recursive($model), true)) {
-            $model = $model->withTrashed();
-        }
-
-        $item = $model->findOrFail($request->get('key'));
-
-        $item->{$request->get('field')} = $request->get('value');
-        $item->save();
-
-        return response()->noContent();
+        return $request->redirectRoute(
+            $request->getResource()->route('index')
+        );
     }
 
     /**
@@ -235,12 +192,22 @@ class CrudController extends BaseController
                 throw_if(! app()->isProduction(), $e);
                 report_if(app()->isProduction(), $e);
 
-                return $redirectRoute
-                    ->with('alert', trans('moonshine::ui.saved_error'));
+                MoonShineUI::toast(
+                    __('moonshine::ui.saved_error'),
+                    'error'
+                );
+
+                return $redirectRoute;
             }
 
-            return $request->redirectRoute($resource->getRouteAfterSave())
-                ->with('alert', trans('moonshine::ui.saved'));
+            MoonShineUI::toast(
+                __('moonshine::ui.saved'),
+                'success'
+            );
+
+            return $request->redirectRoute(
+                $resource->getRouteAfterSave()
+            );
         }
 
         return $this->createOrEditView($request);
@@ -254,22 +221,20 @@ class CrudController extends BaseController
         $item = $request->getItemOrInstance();
         $resource = $request->getResource();
 
-        if (! $item->exists && $request->isRelatableMode()) {
-            $item = $resource->getModel();
-            $item->{$request->relatedColumn()} = $request->relatedKey();
-        }
-
         if (request()->ajax()) {
             $resource->precognitionMode();
         }
 
-        $view = view($resource->baseEditView(), [
+        return $this->viewOrFragment(view($resource->baseEditView(), [
             'resource' => $resource,
             'item' => $item,
-        ]);
+        ]));
+    }
 
-        if ($request->hasHeader('X-Fragment')) {
-            return $view->fragment($request->header('X-Fragment'));
+    protected function viewOrFragment(View $view): View|string
+    {
+        if (request()->hasHeader('X-Fragment')) {
+            return $view->fragment(request()->header('X-Fragment'));
         }
 
         if (request()->ajax()) {

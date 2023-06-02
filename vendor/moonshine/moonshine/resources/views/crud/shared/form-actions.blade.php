@@ -1,8 +1,14 @@
 <x-slot:button class="form_submit_button">
+    <x-moonshine::spinner
+        color="pink"
+        class="form_submit_button_loader"
+        style="display: none;"
+    />
+
     {{ trans('moonshine::ui.save') }}
 </x-slot:button>
 
-@if($item->exists && !request('relatable_mode'))
+@if($item->exists)
     <x-slot:buttons>
         @if($resource->formActionsCollection()->onlyVisible($item)->inDropdown()->isNotEmpty())
             <x-moonshine::dropdown>

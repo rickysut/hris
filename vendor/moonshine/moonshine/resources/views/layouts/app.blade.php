@@ -21,14 +21,6 @@
             const translates = @js(__('moonshine::ui'));
         </script>
     </head>
-    <style>
-        .layout-page {
-            margin-top: 22px;
-        }
-        .layout-menu .menu-inner {
-            margin-top: 28px;
-        }
-    </style>
     <body x-cloak x-data="{ minimizedMenu: $persist(false).as('minimizedMenu'), asideMenuOpen: false }">
         <div class="layout-wrapper" :class="minimizedMenu && 'layout-wrapper-short'">
             @section('sidebar')

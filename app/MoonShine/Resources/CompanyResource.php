@@ -18,7 +18,7 @@ class CompanyResource extends Resource
 	public static string $model = Company::class;
     public string $titleField = 'name';
 
-
+    
     public function title(): string
     {
         return trans('moonshine::ui.resource.company');

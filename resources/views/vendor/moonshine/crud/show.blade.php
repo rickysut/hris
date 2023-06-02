@@ -15,17 +15,29 @@
     ])
 @endsection
 
+
 @section('content')
-    @include('moonshine::crud.shared.detail-card', [
+    @fragment('crud-detail')
+    {{-- {{ dd($resource->detailView()) }} --}}
+    @include($resource->detailView(), [
         'resource' => $resource,
         'item' => $item
     ])
-
-<x-moonshine::link
-:href="$resource->route('index')"
->
-{{ trans('moonshine::ui.back')}}
+    @endfragment
+    <x-moonshine::link
+    :href="$resource->route('index')"
+    >
+    {{ trans('moonshine::ui.back')}}
 </x-moonshine::link>
-
-
 @endsection
+
+{{-- @ section('content')
+    @include('moonshine::crud.shared.detail-card', [
+        'resource' => $resource,
+        'item' => $item
+    ]) --}}
+
+
+
+
+{{-- @endsection --}}

@@ -14,7 +14,7 @@
             type="search"
             class="search-form-field"
             value="{{ request('search', '') }}"
-            placeholder="{{ trans('moonshine::ui.search') }}"
+            placeholder="{{ trans('moonshine::ui.search') }} (Ctrl+K)"
         />
 
         <svg @click.prevent="$refs.searchForm.submit()" class="search-form-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">

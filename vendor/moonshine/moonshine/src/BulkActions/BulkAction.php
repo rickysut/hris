@@ -6,7 +6,7 @@ namespace MoonShine\BulkActions;
 
 use Closure;
 use Illuminate\Database\Eloquent\Model;
-use MoonShine\Contracts\Actions\MassActionContact;
+use MoonShine\Contracts\Actions\MassActionContract;
 use MoonShine\Traits\HasCanSee;
 use MoonShine\Traits\InDropdownOrLine;
 use MoonShine\Traits\Makeable;
@@ -14,7 +14,10 @@ use MoonShine\Traits\WithConfirmation;
 use MoonShine\Traits\WithIcon;
 use MoonShine\Traits\WithLabel;
 
-final class BulkAction implements MassActionContact
+/**
+ * @method static static make(string $label, Closure $callback, string $message = 'Done')
+ */
+final class BulkAction implements MassActionContract
 {
     use Makeable;
     use WithIcon;

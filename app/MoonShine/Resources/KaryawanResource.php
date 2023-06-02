@@ -25,12 +25,13 @@ use App\Models\Jabatan;
 use MoonShine\ItemActions\ItemAction;
 
 
+
 class KaryawanResource extends Resource
 {
 	public static string $model = Karyawan::class;
 
 	public string $titleField = 'name';
-
+    
     public static string $orderField = 'name';
 
     public static string $orderType = 'ASC';
@@ -49,6 +50,12 @@ class KaryawanResource extends Resource
 
     public static array $activeActions = ['show','create','edit','delete'];
 
+    protected string $itemsView = 'vendor.moonshine.crud.shared.table_karyawan'; 
+
+    // protected string $formView = 'vendor.moonshine.crud.shared.form_karyawan'; 
+    protected string $detailView = 'vendor.moonshine.crud.shared.detail-card-karyawan';
+
+
     public function query(): Builder
     {
         return parent::query()
@@ -66,7 +73,11 @@ class KaryawanResource extends Resource
 
 	public function fields(): array
 	{
+        
+        $url = '/resource/absensi-resource/';
 		return [
+
+            // NoInput::make('Attendance')->link($url, blank: false),
 		    Text::make('Pin', 'pin', fn($item) => $item->pin)
                 ->sortable(),
 
@@ -127,6 +138,13 @@ class KaryawanResource extends Resource
                 $item->forceDelete();
             }, 'Move to trash')
             ->canSee(fn(Model $item) => $item->trashed())
+        ];
+    }
+
+    public function components(): array
+    {
+        return [
+            
         ];
     }
 }

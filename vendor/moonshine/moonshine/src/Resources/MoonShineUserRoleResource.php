@@ -9,15 +9,9 @@ use MoonShine\Fields\ID;
 use MoonShine\Fields\Text;
 use MoonShine\Filters\TextFilter;
 use MoonShine\Models\MoonshineUserRole;
-use MoonShine\FormComponents\ChangeLogFormComponent;
-use MoonShine\FormComponents\PermissionFormComponent;
-use MoonShine\Models\MoonshineUser;
-use MoonShine\Traits\Resource\WithUserPermissions;
 
 class MoonShineUserRoleResource extends Resource
 {
-    use WithUserPermissions;
-
     public static string $model = MoonshineUserRole::class;
 
     public string $titleField = 'name';
@@ -26,7 +20,7 @@ class MoonShineUserRoleResource extends Resource
 
     protected bool $createInModal = true;
 
-    protected bool $editInModal = false;
+    protected bool $editInModal = true;
 
     public function title(): string
     {
@@ -70,19 +64,5 @@ class MoonShineUserRoleResource extends Resource
     public function actions(): array
     {
         return [];
-    }
-
-
-    public function components(): array
-    {
-        return [
-            PermissionFormComponent::make('Permissions')
-                // ->canSee(fn ($user) => $user->moonshine_user_role_id === MoonshineUserRole::DEFAULT_ROLE_ID),
-                ->canSee(fn ($user) => auth()->user()->moonshine_user_role_id === MoonshineUserRole::DEFAULT_ROLE_ID),
-
-            ChangeLogFormComponent::make('Change log')
-                // ->canSee(fn ($user) => $user->moonshine_user_role_id === MoonshineUserRole::DEFAULT_ROLE_ID),
-                ->canSee(fn ($user) => auth()->user()->moonshine_user_role_id === MoonshineUserRole::DEFAULT_ROLE_ID),
-        ];
     }
 }

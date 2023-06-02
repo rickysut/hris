@@ -21,14 +21,7 @@ beforeEach(function () {
 it('successful stored', function () {
     $avatar = UploadedFile::fake()->image('avatar.png');
 
-    fakeRequest(method: 'POST', parameters: [
-        'avatar' => $avatar,
-    ]);
-
-    $this->field->save($this->item);
-
-    expect($this->item->avatar)
-        ->toBe('files/'.$avatar->hashName());
+    expect()->storeAvatarFile($avatar, $this->field, $this->item);
 
     Storage::disk('public')->assertExists('files/'.$avatar->hashName());
 });
@@ -70,10 +63,9 @@ it('has one or many method', function () {
     ]);
 
     $avatar = UploadedFile::fake()->image('avatar.png');
-    $values = ['avatar' => $avatar];
 
-    expect($this->field->hasManyOrOneSave('hidden_files', $values))
-        ->toBe(['avatar' => 'files/'.$avatar->hashName()]);
+    expect($this->field->hasManyOrOneSave($avatar))
+        ->toBe('files/'.$avatar->hashName());
 
     Storage::disk('public')->assertExists('files/'.$avatar->hashName());
 });

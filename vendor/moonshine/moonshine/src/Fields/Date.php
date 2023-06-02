@@ -18,12 +18,8 @@ class Date extends Text
     {
         $value = parent::formViewValue($item);
 
-        if (! $value && ! $this->getDefault() && $this->isNullable()) {
-            return '';
-        }
-
         if (! $value) {
-            return $this->getDefault();
+            return $this->isNullable() ? null : '';
         }
 
         if ($value instanceof Carbon) {

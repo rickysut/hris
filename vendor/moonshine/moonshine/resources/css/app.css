@@ -3,8 +3,13 @@
 @import "base/common";
 @import "base/layout";
 
+/* Libs */
+@import "tippy.js/dist/tippy";
+@import "choices.js/public/assets/styles/choices";
+
 /* Tailwind Components */
 @import "tailwindcss/components";
+@import "components/breadcrumbs";
 @import "components/box";
 @import "components/menu";
 @import "components/navigation";
@@ -23,6 +28,10 @@
 @import "components/loader";
 @import "components/colors";
 @import "components/cards";
+@import "components/progressbars";
+@import "components/popovers";
+@import "components/spinners";
+@import "components/toasts";
 
 /* Tailwind Utilities */
 @import "tailwindcss/utilities";
@@ -31,7 +40,3 @@
 /* Pages */
 @import "pages/dashboard";
 @import "pages/authentication";
-
-/* Libs */
-@import "tippy.js/dist/tippy";
-@import "choices.js/public/assets/styles/choices";

@@ -19,7 +19,10 @@ uses(RefreshDatabase::class)
 
 function fakeRequest(string $url = '/', string $method = 'GET', array $parameters = []): void
 {
-    app()->instance('request', request()->create($url, $method, $parameters));
+    app()->instance(
+        'request',
+        request()->create($url, $method, $parameters)
+    );
 }
 
 function asAdmin(): TestCase

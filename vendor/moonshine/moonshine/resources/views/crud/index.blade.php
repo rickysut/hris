@@ -21,7 +21,7 @@
 
 @section('content')
     @include('moonshine::layouts.shared.title', [
-        'title' => $resource->title() ,
+        'title' => $resource->title(),
         'subTitle' => $resource->subTitle()
     ])
 

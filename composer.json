@@ -10,7 +10,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "moonshine/moonshine": "^1.56"
+        "moonshine/moonshine": "^1.58.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",

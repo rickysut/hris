@@ -19,6 +19,7 @@ use MoonShine\Contracts\Actions\ActionContract;
 use MoonShine\Contracts\ResourceRenderable;
 use MoonShine\Contracts\Resources\ResourceContract;
 use MoonShine\Decorations\Decoration;
+use MoonShine\DetailComponents\DetailComponent;
 use MoonShine\Exceptions\ResourceException;
 use MoonShine\Fields\Field;
 use MoonShine\Fields\Fields;
@@ -62,11 +63,17 @@ abstract class Resource implements ResourceContract
 
     protected string $itemsView = 'moonshine::crud.shared.table';
 
+    protected string $formView = 'moonshine::crud.shared.form';
+
+    protected string $detailView = 'moonshine::crud.shared.detail-card';
+
     public string $titleField = '';
 
     protected static bool $system = false;
 
     protected ?Model $item = null;
+
+    protected bool $showInModal = false;
 
     protected bool $createInModal = false;
 
@@ -74,11 +81,9 @@ abstract class Resource implements ResourceContract
 
     protected bool $precognition = false;
 
-    protected string $relatedColumn = '';
-
-    protected string|int $relatedKey = '';
-
     protected bool $previewMode = false;
+
+    protected bool $relatable = false;
 
     protected string $routeAfterSave = 'index';
 
@@ -125,6 +130,16 @@ abstract class Resource implements ResourceContract
      * @return array
      */
     abstract public function search(): array;
+
+    /**
+     * Get custom messages for validator errors
+     *
+     * @return array<string, string|array<string, string>>
+     */
+    public function validationMessages(): array
+    {
+        return [];
+    }
 
     /**
      * Get an array of filter scopes, which will be applied on resource index page
@@ -196,11 +211,16 @@ abstract class Resource implements ResourceContract
     /**
      * Get an array of custom form actions
      *
-     * @return array<int, FormComponent>
+     * @return array<int, FormComponent|DetailComponent>
      */
     public function components(): array
     {
         return [];
+    }
+
+    public function componentsCollection(): ResourceComponents
+    {
+        return ResourceComponents::make($this->components());
     }
 
     /**
@@ -299,6 +319,16 @@ abstract class Resource implements ResourceContract
         return $this->itemsView;
     }
 
+    public function formView(): string
+    {
+        return $this->formView;
+    }
+
+    public function detailView(): string
+    {
+        return $this->detailView;
+    }
+
     public function title(): string
     {
         return static::$title;
@@ -346,9 +376,10 @@ abstract class Resource implements ResourceContract
         return static::$system;
     }
 
-    public function isInModal(): bool
+    public function isInCreateOrEditModal(): bool
     {
-        return $this->isEditInModal() || $this->isCreateInModal();
+        return $this->isEditInModal()
+            || $this->isCreateInModal();
     }
 
     public function isCreateInModal(): bool
@@ -361,10 +392,15 @@ abstract class Resource implements ResourceContract
         return $this->editInModal;
     }
 
+    public function isShowInModal(): bool
+    {
+        return $this->showInModal;
+    }
+
     public function isPrecognition(): bool
     {
         return $this->precognition
-            || $this->isInModal()
+            || $this->isInCreateOrEditModal()
             || $this->isRelatable();
     }
 
@@ -407,8 +443,13 @@ abstract class Resource implements ResourceContract
      */
     public function getFields(): Fields
     {
-        return Fields::make($this->fields())
-            ->withParents();
+        $fields = Fields::make($this->fields());
+
+        $fields->withCurrentResource($this);
+        $fields->withParents();
+        $fields->prepareAttributes();
+
+        return $fields;
     }
 
     /**
@@ -445,19 +486,19 @@ abstract class Resource implements ResourceContract
         return in_array(SoftDeletes::class, class_uses_recursive(static::$model), true);
     }
 
-    public function relatable(string $column, string|int $key): self
+    public function relatable(): self
     {
-        $this->relatedColumn = $column;
-        $this->relatedKey = $key;
+        $this->relatable = true;
         $this->createInModal = true;
         $this->editInModal = true;
+        $this->showInModal = true;
 
         return $this->precognitionMode();
     }
 
     public function isRelatable(): bool
     {
-        return ($this->relatedColumn && $this->relatedKey);
+        return $this->relatable;
     }
 
     public function previewMode(): self
@@ -472,16 +513,6 @@ abstract class Resource implements ResourceContract
         return $this->previewMode;
     }
 
-    public function relatedColumn(): string
-    {
-        return $this->relatedColumn;
-    }
-
-    public function relatedKey(): string|int
-    {
-        return $this->relatedKey;
-    }
-
     /**
      * @throws Throwable
      */
@@ -490,28 +521,28 @@ abstract class Resource implements ResourceContract
         return Validator::make(
             request()->all(),
             $this->rules($item),
-            trans('moonshine::validation'),
+            array_merge(trans('moonshine::validation'), $this->validationMessages()),
             $this->getFields()->extractLabels()
         );
     }
 
-    public function massDelete(array $ids)
+    public function massDelete(array $ids): void
     {
         if (method_exists($this, 'beforeMassDeleting')) {
             $this->beforeMassDeleting($ids);
         }
 
-        return tap(
+        $this->transformToResources(
             $this->getModel()
-                ->newModelQuery()
-                ->whereIn($this->getModel()->getKeyName(), $ids)
-                ->delete(),
-            function () use ($ids) {
-                if (method_exists($this, 'afterMassDeleted')) {
-                    $this->afterMassDeleted($ids);
-                }
-            }
-        );
+                    ->newModelQuery()
+                    ->whereIn($this->getModel()->getKeyName(), $ids)
+                    ->get()
+        )
+            ->each(fn ($resource) => $resource->delete($resource->getItem()));
+
+        if (method_exists($this, 'afterMassDeleted')) {
+            $this->afterMassDeleted($ids);
+        }
     }
 
     public function delete(Model $item): bool
@@ -520,11 +551,15 @@ abstract class Resource implements ResourceContract
             $this->beforeDeleting($item);
         }
 
-        return tap($item->delete(), function () use ($item) {
+        $this->getFields()->formFields()->each(fn ($field) => $field->afterDelete($item));
+
+        $result = tap($item->delete(), function () use ($item) {
             if (method_exists($this, 'afterDeleted')) {
                 $this->afterDeleted($item);
             }
         });
+
+        return $result;
     }
 
     /**
@@ -540,18 +575,18 @@ abstract class Resource implements ResourceContract
         try {
             $fields->each(fn (Field $field) => $field->beforeSave($item));
 
+            foreach ($fields as $field) {
+                if (! $field->hasRelationship() || $field->belongToOne()) {
+                    $item = $this->saveItem($item, $field, $saveData);
+                }
+            }
+
             if (! $item->exists && method_exists($this, 'beforeCreating')) {
                 $this->beforeCreating($item);
             }
 
             if ($item->exists && method_exists($this, 'beforeUpdating')) {
                 $this->beforeUpdating($item);
-            }
-
-            foreach ($fields as $field) {
-                if (! $field->hasRelationship() || $field->belongToOne()) {
-                    $item = $this->saveItem($item, $field, $saveData);
-                }
             }
 
             if ($item->save()) {

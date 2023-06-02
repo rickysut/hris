@@ -1,7 +1,9 @@
 /* Tinymce */
 
-export default (selector) => ({
-    init() {
+export default () => ({
+    async init() {
+        await this.$nextTick();
+
         const fileManager = function (callback, value, meta) {
             const x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth
             const y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight
@@ -19,7 +21,7 @@ export default (selector) => ({
         }
 
         const config = {
-            selector: selector,
+            selector: '#' + this.$el.getAttribute('id'),
             path_absolute: '/',
             file_manager: '',
             relative_urls: false,

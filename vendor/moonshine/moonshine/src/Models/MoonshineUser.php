@@ -21,7 +21,6 @@ class MoonshineUser extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'username',
         'email',
         'moonshine_user_role_id',
         'password',

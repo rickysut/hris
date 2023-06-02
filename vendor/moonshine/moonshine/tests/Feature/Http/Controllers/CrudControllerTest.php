@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Event;
 use MoonShine\Fields\Text;
 use MoonShine\Http\Controllers\CrudController;
 use MoonShine\Models\MoonshineUser;
@@ -78,6 +79,8 @@ it('show detail page', function () {
 });
 
 it('successful stored', function () {
+    Event::fake();
+
     $email = fake()->email();
 
     $this->requestData->withEmail($email);
@@ -104,7 +107,30 @@ it('validation error on stored', function () {
         ->assertInvalid(['email']);
 });
 
+it('validation error with specified error message on stored', function () {
+    $resource = TestResourceBuilder::new(MoonshineUser::class, true)
+        ->setTestFields([
+            Text::make('Email'),
+        ])
+        ->setTestRules([
+            'email' => 'required',
+        ])
+        ->setTestValidationMessages([
+            'email.required' => 'Some error message',
+        ]);
+
+    $this->requestData->withEmail('');
+
+    asAdmin()
+        ->post($resource->route('store'), $this->requestData->create())
+        ->assertInvalid([
+            'email' => 'Some error message',
+        ]);
+});
+
 it('successful updated', function () {
+    Event::fake();
+
     $email = fake()->email();
 
     $this->requestData->withEmail($email);
@@ -142,6 +168,8 @@ it('validation error on updated', function () {
 });
 
 it('changed route after save', function () {
+    Event::fake();
+
     $this->resource = TestResourceBuilder::new(get_class($this->user), true)
         ->setTestRouteAfterSave('edit');
 
@@ -176,6 +204,8 @@ it('successful mass delete items', function () {
 });
 
 it('column updated', function () {
+    $item = MoonshineUser::factory()->create(['name' => 'Before']);
+
     $columnValue = fake()->words(asText: true);
 
     assertDatabaseMissing('moonshine_users', [
@@ -183,9 +213,7 @@ it('column updated', function () {
     ]);
 
     asAdmin()
-        ->putJson(route('moonshine.update-column'), [
-            'model' => $this->user::class,
-            'key' => $this->user->getKey(),
+        ->putJson($this->resource->route('update-column', $item->getKey()), [
             'field' => 'name',
             'value' => $columnValue,
         ])->assertNoContent();

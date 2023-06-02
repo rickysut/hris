@@ -22,7 +22,7 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->string('username', 50)->unique();
+
             $table->string('email', 190)->unique();
             $table->string('password', 60);
             $table->string('name');

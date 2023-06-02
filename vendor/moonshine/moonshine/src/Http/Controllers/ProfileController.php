@@ -20,7 +20,6 @@ class ProfileController extends BaseController
         $resultData = [
             config('moonshine.auth.fields.username', 'email') => $data['username'],
             config('moonshine.auth.fields.name', 'name') => $data['name'],
-            config('moonshine.auth.fields.email', 'email') => $data['email'],
         ];
 
         if (isset($data['password']) && $data['password'] !== '') {

@@ -1,10 +1,11 @@
 <div class="tinymce">
     <x-moonshine::form.textarea
         :attributes="$element->attributes()->merge([
-            'id' => 'tinyeditor_' . $item->getKey() . '_' . $element->id(),
+            //'id' => 'tinyeditor_' . $item->getKey() . '_' . $element->id(),
             'name' => $element->name()
         ])"
-        x-data="tinymce('textarea#tinyeditor_{{$item->getKey()}}_{{$element->id()}}')"
+        ::id="$id('tiny-mce')"
+        x-data="tinymce()"
         :data-language="!empty($element->locale) ? $element->locale : app()->getLocale()"
         :data-plugins="trim($element->plugins . ' ' . $element->addedPlugins)"
         :data-toolbar="trim($element->toolbar . ' ' . $element->addedToolbar)"

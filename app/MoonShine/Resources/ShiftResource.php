@@ -93,12 +93,12 @@ class ShiftResource extends Resource
                         Column::make([
                             Date::make('Start Istirahat', 'breakstart', fn($item) => $item->breakstart)->withTime()->format('H:i')
                         ->hideOnForm(),
-                        Text::make('Start Istirahat', 'breakstart', fn($item) => $item->breakstart)->mask('99:99')->hideOnIndex()->hideOnDetail(),
+                        Text::make('Start Istirahat', 'breakstart', fn($item) => $item->breakstart)->mask('99:99')->hideOnIndex()->hideOnDetail()->default('00:00'),
                         ])->columnSpan(6),
                         Column::make([
                             Date::make('Selesai Istirahat', 'breakstop', fn($item) => $item->breakstop)->withTime()->format('H:i')
                         ->hideOnForm(),
-                        Text::make('Selesai Istirahat', 'breakstop', fn($item) => $item->breakstop)->mask('99:99')->hideOnIndex()->hideOnDetail(),
+                        Text::make('Selesai Istirahat', 'breakstop', fn($item) => $item->breakstop)->mask('99:99')->hideOnIndex()->hideOnDetail()->default('00:00'),
                         ])->columnSpan(6),
                     ]),
 

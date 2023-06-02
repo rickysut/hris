@@ -13,6 +13,8 @@ class TestResource extends Resource
 
     private array $testFields = [];
 
+    private array $testValidationMessages = [];
+
     private array $testFilters = [];
 
     private array $testActions = [];
@@ -26,6 +28,8 @@ class TestResource extends Resource
     private array $testSearch = [];
 
     private array $testQueryTags = [];
+
+    private ?string $testUriKey = null;
 
     public function setTestPolicy(bool $value): static
     {
@@ -58,6 +62,13 @@ class TestResource extends Resource
     public function setTestFields(array $testFields): static
     {
         $this->testFields = $testFields;
+
+        return $this;
+    }
+
+    public function setTestValidationMessages(array $testValidationMessages): static
+    {
+        $this->testValidationMessages = $testValidationMessages;
 
         return $this;
     }
@@ -118,6 +129,13 @@ class TestResource extends Resource
         return $this;
     }
 
+    public function setTestUriKey(string $value): static
+    {
+        $this->testUriKey = $value;
+
+        return $this;
+    }
+
     public function addRoutes(): static
     {
         $menu = MoonShine::getMenu();
@@ -137,6 +155,11 @@ class TestResource extends Resource
     public function fields(): array
     {
         return $this->testFields;
+    }
+
+    public function validationMessages(): array
+    {
+        return $this->testValidationMessages;
     }
 
     public function filters(): array
@@ -182,5 +205,14 @@ class TestResource extends Resource
     public function search(): array
     {
         return $this->testSearch;
+    }
+
+    public function uriKey(): string
+    {
+        if ($this->testUriKey) {
+            return $this->testUriKey;
+        }
+
+        return parent::uriKey();
     }
 }

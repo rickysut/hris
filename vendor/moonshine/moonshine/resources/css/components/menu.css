@@ -23,6 +23,11 @@
                 @apply lg:top-0.5 lg:right-0 lg:max-w-[48px];
             }
         }
+        .menu-inner-divider {
+            > span {
+                @apply hidden;
+            }
+        }
         .menu-profile {
             @apply lg:flex-col;
             &-info {
@@ -130,7 +135,7 @@
 
             /* Dropdown Menu */
             &-dropdown {
-                @apply mt-2 flex flex-col gap-y-1 rounded-lg bg-white/5 py-1.5 px-1 dark:bg-dark-500;
+                @apply mt-2 flex flex-col gap-y-1 rounded-lg bg-dark-600 py-1.5 px-1 dark:bg-dark-500;
                 .menu-inner-item {
                     &::before,
                     &::after {
@@ -149,6 +154,19 @@
                 }
                 .menu-inner-counter {
                     @apply h-5 bg-pink text-[11px] leading-5 lg:top-0.5 lg:right-0 lg:max-w-[48px] xl:right-1 xl:max-w-[120px];
+                }
+                .menu-inner-divider {
+                    > span {
+                        @apply bg-dark-600 dark:bg-dark-500 lg:bg-dark-600;
+                    }
+                }
+            }
+
+            /* Divider */
+            &-divider {
+                @apply relative my-2 mx-0.5 pl-4 pr-0.5 text-slate-400 before:absolute before:inset-x-0.5 before:top-1/2 before:h-[1px] before:bg-slate-500;
+                > span {
+                    @apply relative z-1 block w-full truncate bg-dark-700 pl-2.5 pr-4 dark:bg-dark-700 lg:hidden lg:bg-darkblue lg:dark:bg-body xl:block;
                 }
             }
         }

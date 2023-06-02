@@ -40,12 +40,6 @@ class MoonShineUserResource extends Resource
         return trans('moonshine::ui.resource.admins_title');
     }
 
-    public function subTitle(): string
-    {
-        return trans('moonshine::ui.subtitle.admins_title');
-    }
-
-
     public function fields(): array
     {
         return [
@@ -69,15 +63,10 @@ class MoonShineUserResource extends Resource
                             ->useOnImport()
                             ->showOnExport(),
 
-                        Text::make(trans('moonshine::ui.resource.username'), 'username')
-                            ->required()
-                            ->useOnImport()
-                            ->showOnExport(),
-
                         Image::make(trans('moonshine::ui.resource.avatar'), 'avatar')
                             ->removable()
                             ->showOnExport()
-                            ->disk('public')
+                            ->disk(config('filesystems.default'))
                             ->dir('moonshine_users')
                             ->allowedExtensions(['jpg', 'png', 'jpeg', 'gif']),
 
@@ -118,12 +107,10 @@ class MoonShineUserResource extends Resource
     {
         return [
             PermissionFormComponent::make('Permissions')
-                // ->canSee(fn ($user) => $user->moonshine_user_role_id === MoonshineUserRole::DEFAULT_ROLE_ID),
-                ->canSee(fn ($user) => auth()->user()->moonshine_user_role_id === MoonshineUserRole::DEFAULT_ROLE_ID),
+                ->canSee(fn ($user) => $user->moonshine_user_role_id === MoonshineUserRole::DEFAULT_ROLE_ID),
 
             ChangeLogFormComponent::make('Change log')
-                // ->canSee(fn ($user) => $user->moonshine_user_role_id === MoonshineUserRole::DEFAULT_ROLE_ID),
-                ->canSee(fn ($user) => auth()->user()->moonshine_user_role_id === MoonshineUserRole::DEFAULT_ROLE_ID),
+                ->canSee(fn ($user) => $user->moonshine_user_role_id === MoonshineUserRole::DEFAULT_ROLE_ID),
         ];
     }
 
