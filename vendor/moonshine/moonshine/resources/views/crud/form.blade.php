@@ -17,7 +17,6 @@
 
 @section('content')
     @fragment('crud-form')
-    {{-- {{ dd($resource->formView()) }} --}}
         @include($resource->formView(), ['item' => $item])
     @endfragment
 @endsection

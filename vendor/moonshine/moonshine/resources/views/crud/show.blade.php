@@ -17,7 +17,6 @@
 
 @section('content')
     @fragment('crud-detail')
-    
     @include($resource->detailView(), [
         'resource' => $resource,
         'item' => $item
