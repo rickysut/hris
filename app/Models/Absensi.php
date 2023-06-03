@@ -15,11 +15,19 @@ class Absensi extends Model
 
     protected $fillable = [
         'karyawan_id',
+        'pin',
         'tanggal',
-        'in',
-        'out',
+        'jadwalmasuk',
+        'jadwalpulang',
+        'masuk',
+        'pulang',
         'breakin',
         'breakout',
+        'jamefektif',
+        'terlambat',
+        'pulangawal',
+        'durasibreak',
+        'idshift'
     ];
 
     public function karyawan(){
