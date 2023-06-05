@@ -59,4 +59,8 @@ class Karyawan extends Model
     public function shift(){
         return $this->belongsTo(Shift::class, 'shift_id', 'id');
     }
+
+    public function attendance() {
+        return $this->hasMany(Absensi::class);
+    }
 }

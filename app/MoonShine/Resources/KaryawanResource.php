@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Log;
 use MoonShine\Fields\BelongsTo;
 use MoonShine\Fields\Date;
 use App\Models\Jabatan;
+use MoonShine\Fields\BelongsToMany;
+use MoonShine\Fields\HasMany;
 use MoonShine\ItemActions\ItemAction;
 
 
@@ -31,7 +33,7 @@ class KaryawanResource extends Resource
 	public static string $model = Karyawan::class;
 
 	public string $titleField = 'name';
-    
+
     public static string $orderField = 'name';
 
     public static string $orderType = 'ASC';
@@ -50,11 +52,13 @@ class KaryawanResource extends Resource
 
     public static array $activeActions = ['show','create','edit','delete'];
 
-    protected string $itemsView = 'vendor.moonshine.crud.shared.table_karyawan'; 
+    protected string $itemsView = 'vendor.moonshine.crud.shared.table_karyawan';
 
-    // protected string $formView = 'vendor.moonshine.crud.shared.form_karyawan'; 
-    protected string $detailView = 'vendor.moonshine.crud.shared.detail-card-karyawan';
+    // protected string $formView = 'vendor.moonshine.crud.shared.form_karyawan';
+    protected string $detailView = 'crud.detail-card-karyawan';
 
+
+    // public static array $with = ['attendance'];
 
     public function query(): Builder
     {
@@ -73,7 +77,7 @@ class KaryawanResource extends Resource
 
 	public function fields(): array
 	{
-        
+
         $url = '/resource/absensi-resource/';
 		return [
 
@@ -88,12 +92,13 @@ class KaryawanResource extends Resource
                 ->onValue(1)
                 ->offValue(0)
                 ->autoUpdate(false),
-            BelongsTo::make('Company', 'company', 'name')->sortable()->searchable(),
-            BelongsTo::make('Branch', 'branch', 'name' )->sortable()->searchable(),
-            BelongsTo::make('Department', 'department', 'name' )->sortable()->searchable(),
-            BelongsTo::make('Sub-Department', 'subdept', 'name' )->sortable()->searchable(),
-            BelongsTo::make('Position', 'position', 'name' )->sortable()->searchable(),
-            BelongsTo::make('Shift', 'shift', 'name' )->sortable()->searchable(),
+            BelongsTo::make('Company', 'company', 'name')->hideOnDetail()->sortable()->searchable(),
+            BelongsTo::make('Branch', 'branch', 'name' )->hideOnDetail()->sortable()->searchable(),
+            BelongsTo::make('Department', 'department', 'name' )->hideOnDetail()->sortable()->searchable(),
+            BelongsTo::make('Sub-Department', 'subdept', 'name' )->hideOnDetail()->sortable()->searchable(),
+            BelongsTo::make('Position', 'position', 'name' )->hideOnDetail()->sortable()->searchable(),
+            BelongsTo::make('Shift', 'shift', 'name' )->hideOnDetail()->sortable()->searchable(),
+            // HasMany::make('Attendance', 'attendance', 'masuk')
         ];
 	}
 
@@ -144,7 +149,7 @@ class KaryawanResource extends Resource
     public function components(): array
     {
         return [
-            
+
         ];
     }
 }
