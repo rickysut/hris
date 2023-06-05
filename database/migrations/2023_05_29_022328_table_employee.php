@@ -27,7 +27,9 @@ return new class extends Migration
             $table->unsignedBigInteger('position_id');
             $table->unsignedBigInteger('subdept_id');
             $table->unsignedBigInteger('shift_id');
-
+            $table->string('st_departemen');
+            $table->string('st_sub');
+            $table->string('st_jabatan');
             $table->timestamps();
             $table->softDeletes();
         });

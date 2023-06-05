@@ -54,13 +54,20 @@ class AbsensiResource extends Resource
 
     public function query(): Builder
     {
-        $currentDate = Carbon::now();
+        // $currentDate = Carbon::now();
+        // $endDateOfMonth = $currentDate->endOfMonth();
+        // $EndDate = $endDateOfMonth->format('Y-m-d');
+
+
+        // $dateOf26thLastMonth = $currentDate->subMonthNoOverflow()->setDay(26);
+        // $StartDate = $dateOf26thLastMonth->format('Y-m-d');
+
+        $currentDate = Carbon::now()->subMonth();
         $endDateOfMonth = $currentDate->endOfMonth();
         $EndDate = $endDateOfMonth->format('Y-m-d');
-
-
         $dateOf26thLastMonth = $currentDate->subMonthNoOverflow()->setDay(26);
         $StartDate = $dateOf26thLastMonth->format('Y-m-d');
+
         return parent::query()
             ->whereBetween('tanggal', [$StartDate, $EndDate]);
     }
@@ -72,14 +79,14 @@ class AbsensiResource extends Resource
             // Text::make('Pin', 'PIN', fn($item) => $item->PIN)->sortable(),
             BelongsTo::make('Karyawan', 'karyawan', 'name')->sortable(),
             Date::make('Tanggal', 'tanggal', fn($item) => $item->tanggal)->format('d-m-Y')->sortable(),
-            Date::make('Masuk', 'in', fn($item) => $item->in)->withTime()->format('H:i')->sortable()->hideOnForm(),
-            Text::make('Masuk', 'in')->mask('99:99')->hideOnIndex(),
-            Date::make('Pulang', 'out', fn($item) => $item->out)->withTime()->format('H:i')->sortable()->hideOnForm(),
-            Text::make('Pulang', 'out')->mask('99:99')->hideOnIndex(),
-            Date::make('Keluar istirahat', 'breakout', fn($item) => $item->breakin)->withTime()->format('H:i')->sortable()->hideOnForm(),
-            Text::make('Keluar istirahat', 'breakout')->mask('99:99')->hideOnIndex(),
-            Date::make('Masuk istirahat', 'breakin', fn($item) => $item->breakout)->withTime()->format('H:i')->sortable()->hideOnForm(),
-            Text::make('Masuk istirahat', 'breakin')->mask('99:99')->hideOnIndex(),
+            Date::make('Masuk', 'masuk', fn($item) => $item->masuk)->withTime()->format('H:i')->sortable()->hideOnForm(),
+            Text::make('Masuk', 'masuk')->mask('99:99')->hideOnIndex(),
+            Date::make('Pulang', 'pulang', fn($item) => $item->pulang)->withTime()->format('H:i')->sortable()->hideOnForm(),
+            Text::make('Pulang', 'pulang')->mask('99:99')->hideOnIndex(),
+            // Date::make('Keluar istirahat', 'breakout', fn($item) => $item->breakin)->withTime()->format('H:i')->sortable()->hideOnForm(),
+            // Text::make('Keluar istirahat', 'breakout')->mask('99:99')->hideOnIndex(),
+            // Date::make('Masuk istirahat', 'breakin', fn($item) => $item->breakout)->withTime()->format('H:i')->sortable()->hideOnForm(),
+            // Text::make('Masuk istirahat', 'breakin')->mask('99:99')->hideOnIndex(),
         ];
 	}
 

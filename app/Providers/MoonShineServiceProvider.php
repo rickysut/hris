@@ -22,13 +22,14 @@ use App\MoonShine\Resources\MultiplicationResource;
 use App\MoonShine\Resources\KaryawanResource;
 use App\MoonShine\Resources\AbsensiResource;
 use App\MoonShine\Resources\MoonShineUserResource;
+use MoonShine\Resources\CustomPage;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
         app(MoonShine::class)->menu([
-
+            MenuItem::make('Dashboard', fn() => route('moonshine.index'))->icon('heroicons.outline.computer-desktop') ,
             MenuGroup::make('moonshine::ui.resource.settings', [
                 MenuItem::make('moonshine::ui.resource.company', new CompanyResource())
                             ->translatable()
@@ -70,6 +71,16 @@ class MoonShineServiceProvider extends ServiceProvider
             ])
             ->icon('heroicons.outline.cog-6-tooth')
             ->translatable(),
+
+            MenuGroup::make('moonshine::ui.resource.reports', [
+                MenuItem::make('Laporan turnover',
+                    CustomPage::make('Laporan turnover', 'turnover', 'turnover' , fn() => [])
+                    ->withoutTitle()
+                )->icon('heroicons.outline.arrows-right-left')
+            ])
+            ->icon('heroicons.outline.chart-bar')
+            ->translatable(),
+
 
             MenuItem::make('moonshine::ui.resource.employee', new KaryawanResource())
                     ->translatable()

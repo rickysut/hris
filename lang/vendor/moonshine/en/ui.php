@@ -103,6 +103,7 @@ return [
         'department' => 'Department',
         'subdepartment' => 'Sub-Department',
         'jabatan' => 'Positions',
+        'reports' => 'Reportings',
 
         //shift
         'shift' => 'Shift',
