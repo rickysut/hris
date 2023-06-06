@@ -1,0 +1,1 @@
+UPDATE subdepartment SET department_id = (SELECT department.id FROM department WHERE department.name = subdepartment.departemen)

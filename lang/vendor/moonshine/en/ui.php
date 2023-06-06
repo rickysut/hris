@@ -36,7 +36,7 @@ return [
     'loading' => 'Loading ...',
     'notfound' => 'Records not found',
     'collapse_menu' => 'Collapse menu',
-    '404' => 'Houston we have a problem page not found',
+    '404' => 'Page not found',
     'notifications' => [
         'title' => 'Notifications',
         'mark_as_read_all' => 'Mark all as read',
@@ -54,8 +54,28 @@ return [
         'password' => 'Password',
         'or_socials' => 'or',
     ],
+
+    'subtitle' => [
+        'admins_title' => 'Admins Management',
+        // settings
+        'company' => 'Company info',
+        'branch' => 'Registered branch',
+        'department' => 'Department list',
+        'subdepartment' => 'List of sub-department',
+        'jabatan' => 'List of positions',
+
+        //shift
+        'shift' => 'Shift list',
+        //alasan
+        'alasan' => 'Leave codes',
+        'multiplication' => 'Multiplication of overtime',
+        'employee' => 'Employee list',
+        'holiday' => 'List of holiday',
+        'attendance' => 'Employee attendance',
+    ],
+
     'resource' => [
-        'system' => 'System',
+        'system' => 'Admin',
         'role' => 'Roles',
         'name' => 'Name',
         'email' => 'E-mail',
@@ -66,6 +86,7 @@ return [
         'admins_title' => 'Admins',
         'role_title' => 'Roles',
         'role_name' => 'Title',
+        'username' => 'Username',
 
         'main_information' => 'Main information',
         'change_password' => 'Change password',
@@ -74,6 +95,27 @@ return [
         'linked_socialite' => 'Account linked',
 
         'queued' => 'Queued',
+
+        // settings
+        'settings' => 'Settings',
+        'company' => 'Company',
+        'branch' => 'Branch',
+        'department' => 'Department',
+        'subdepartment' => 'Sub-Department',
+        'jabatan' => 'Positions',
+        'reports' => 'Reportings',
+
+        //shift
+        'shift' => 'Shift',
+        //alasan
+        'alasan' => 'Leave Code',
+        'multiplication' => 'Multiplication',
+        'employee' => 'Employee',
+        'holiday' => 'Holiday',
+        'attendance' => 'Attendance',
+
+        //reporting
+        'turnover' => 'Turn Over',
 
         'export' => [
             'exported' => 'File exported',
@@ -84,5 +126,9 @@ return [
             'file_required' => 'File is required',
             'extension_not_supported' => 'File extension not supported'
         ]
+    ],
+
+    'query' => [
+        'attendance_thismonth' => 'This Month',
     ]
 ];
