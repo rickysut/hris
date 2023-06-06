@@ -73,10 +73,10 @@ class MoonShineServiceProvider extends ServiceProvider
             ->translatable(),
 
             MenuGroup::make('moonshine::ui.resource.reports', [
-                MenuItem::make('Laporan turnover',
-                    CustomPage::make('Laporan turnover', 'turnover', 'turnover' , fn() => [])
-                    ->withoutTitle()
-                )->icon('heroicons.outline.arrows-right-left')
+                MenuItem::make('moonshine::ui.resource.turnover',
+                    CustomPage::make('moonshine::ui.resource.turnover', 'turnover', 'turnover' , fn() => [])
+                    ->withoutTitle()->translatable()
+                )->icon('heroicons.outline.arrows-right-left')->translatable(),
             ])
             ->icon('heroicons.outline.chart-bar')
             ->translatable(),

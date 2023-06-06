@@ -114,6 +114,9 @@ return [
         'holiday' => 'Holiday',
         'attendance' => 'Attendance',
 
+        //reporting
+        'turnover' => 'Turn Over',
+
         'export' => [
             'exported' => 'File exported',
         ],

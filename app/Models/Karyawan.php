@@ -61,6 +61,6 @@ class Karyawan extends Model
     }
 
     public function attendance() {
-        return $this->hasMany(Absensi::class);
+        return $this->hasMany(Absensi::class)->latest()->take(30);;
     }
 }

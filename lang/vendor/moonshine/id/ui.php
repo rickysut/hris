@@ -103,7 +103,7 @@ return [
         'department' => 'Departemen',
         'subdepartment' => 'Sub-Departemen',
         'jabatan' => 'Jabatan',
-        'reports' => 'Reportings',
+        'reports' => 'Laporan',
 
         //shift
         'shift' => 'Shift',
@@ -113,6 +113,9 @@ return [
         'employee' => 'Karyawan',
         'holiday' => 'Hari libur',
         'attendance' => 'Absensi',
+
+        //reporting
+        'turnover' => 'Turn Over',
 
         'export' => [
             'exported' => 'File exported',

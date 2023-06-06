@@ -26,6 +26,7 @@ use App\Models\Scopes\CurrentMonthScopes;
 use MoonShine\Filters\DateRangeFilter;
 use MoonShine\ItemActions\ItemAction;
 use Illuminate\Database\Eloquent\Builder;
+use MoonShine\Fields\NoInput;
 
 class AbsensiResource extends Resource
 {
@@ -80,9 +81,10 @@ class AbsensiResource extends Resource
             BelongsTo::make('Karyawan', 'karyawan', 'name')->sortable(),
             Date::make('Tanggal', 'tanggal', fn($item) => $item->tanggal)->format('d-m-Y')->sortable(),
             Date::make('Masuk', 'masuk', fn($item) => $item->masuk)->withTime()->format('H:i')->sortable()->hideOnForm(),
-            Text::make('Masuk', 'masuk')->mask('99:99')->hideOnIndex(),
+            Text::make('Masuk', 'masuk')->mask('99:99')->hideOnIndex()->hideOnDetail(),
             Date::make('Pulang', 'pulang', fn($item) => $item->pulang)->withTime()->format('H:i')->sortable()->hideOnForm(),
-            Text::make('Pulang', 'pulang')->mask('99:99')->hideOnIndex(),
+            Text::make('Pulang', 'pulang')->mask('99:99')->hideOnIndex()->hideOnDetail(),
+            NoInput::make('Total', 'total', fn($item) =>  date( "H:i", strtotime($item->pulang)- strtotime($item->masuk)) )->hideOnForm()  ,
             // Date::make('Keluar istirahat', 'breakout', fn($item) => $item->breakin)->withTime()->format('H:i')->sortable()->hideOnForm(),
             // Text::make('Keluar istirahat', 'breakout')->mask('99:99')->hideOnIndex(),
             // Date::make('Masuk istirahat', 'breakin', fn($item) => $item->breakout)->withTime()->format('H:i')->sortable()->hideOnForm(),

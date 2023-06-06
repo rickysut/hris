@@ -57,6 +57,7 @@ class KaryawanResource extends Resource
     // protected string $formView = 'vendor.moonshine.crud.shared.form_karyawan';
     protected string $detailView = 'crud.detail-card-karyawan';
 
+    public static int $itemsPerPage = 10; // Number of items per page
 
     // public static array $with = ['attendance'];
 
@@ -82,22 +83,22 @@ class KaryawanResource extends Resource
 		return [
 
             // NoInput::make('Attendance')->link($url, blank: false),
-		    Text::make('Pin', 'pin', fn($item) => $item->pin)
-                ->sortable(),
+		    //  Text::make('Pin', 'pin', fn($item) => $item->pin)
+            //     ->sortable(),
 
 		    Text::make('Nama', 'name', fn($item) => $item->name)->sortable(),
-		    Date::make('Masuk tgl', 'start_date', fn($item) => $item->start_date)->format('d/m/Y')->sortable(),
-            Date::make('Berhenti tgl', 'end_date', fn($item) => $item->end_date)->format('d/m/Y')->sortable(),
+		    // Date::make('Masuk tgl', 'start_date', fn($item) => $item->start_date)->format('d/m/Y')->sortable(),
+            // Date::make('Berhenti tgl', 'end_date', fn($item) => $item->end_date)->format('d/m/Y')->sortable(),
             SwitchBoolean::make('Aktif', 'active')
                 ->onValue(1)
                 ->offValue(0)
                 ->autoUpdate(false),
-            BelongsTo::make('Company', 'company', 'name')->hideOnDetail()->sortable()->searchable(),
-            BelongsTo::make('Branch', 'branch', 'name' )->hideOnDetail()->sortable()->searchable(),
+            // BelongsTo::make('Company', 'company', 'name')->hideOnDetail()->sortable()->searchable(),
+            // BelongsTo::make('Branch', 'branch', 'name' )->hideOnDetail()->sortable()->searchable(),
             BelongsTo::make('Department', 'department', 'name' )->hideOnDetail()->sortable()->searchable(),
-            BelongsTo::make('Sub-Department', 'subdept', 'name' )->hideOnDetail()->sortable()->searchable(),
-            BelongsTo::make('Position', 'position', 'name' )->hideOnDetail()->sortable()->searchable(),
-            BelongsTo::make('Shift', 'shift', 'name' )->hideOnDetail()->sortable()->searchable(),
+            // BelongsTo::make('Sub-Department', 'subdept', 'name' )->hideOnDetail()->sortable()->searchable(),
+            // BelongsTo::make('Position', 'position', 'name' )->hideOnDetail()->sortable()->searchable(),
+            // BelongsTo::make('Shift', 'shift', 'name' )->hideOnDetail()->sortable()->searchable(),
             // HasMany::make('Attendance', 'attendance', 'masuk')
         ];
 	}

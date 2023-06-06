@@ -23,35 +23,63 @@
             <x-moonshine::loader x-show="loading" />
             <div x-show="!loading">
                 @if($resources->isNotEmpty())
-                    {{ dd($resources) }}
+
                     <x-moonshine::table
                         :crudMode="true"
                     >
                         <x-slot:thead>
-                            {{-- @include("crud.table-head-karyawan", [$resource]) --}}
-                            @foreach($resources as $field)
+                            <th>
+                                <div class="flex items-baseline gap-x-1">
+                                    Tanggal
 
-                                <th>
-                                    <div class="flex items-baseline gap-x-1">
-                                        {{ $field->tanggal }}
+                                    @if(!$resource->isPreviewMode() && $field->isSortable())
+                                        <a href="{{ $field->sortQuery() }}" class="shrink-0" @click.prevent="canBeAsync">
+                                            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" fill-opacity="{{ $field->sortType('asc') && $field->sortActive() ? '1' : '.5' }}" d="m11.47,4.72a0.75,0.75 0 0 1 1.06,0l3.75,3.75a0.75,0.75 0 0 1 -1.06,1.06l-3.22,-3.22l-3.22,3.22a0.75,0.75 0 0 1 -1.06,-1.06l3.75,-3.75z" clip-rule="evenodd"></path>
+                                                <path fill-rule="evenodd" fill-opacity="{{ $field->sortType('desc') && $field->sortActive() ? '1' : '.5' }}" d="m12.53,4.72zm-4.81,9.75a0.75,0.75 0 0 1 1.06,0l3.22,3.22l3.22,-3.22a0.75,0.75 0 1 1 1.06,1.06l-3.75,3.75a0.75,0.75 0 0 1 -1.06,0l-3.75,-3.75a0.75,0.75 0 0 1 0,-1.06z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </a>
+                                    @endif
+                                </div>
+                            </th>
+                            <th>
+                                <div class="flex items-baseline gap-x-1">
+                                    Masuk
 
-                                        @if(!$resource->isPreviewMode() && $field->isSortable())
-                                            <a href="{{ $field->sortQuery() }}" class="shrink-0" @click.prevent="canBeAsync">
-                                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" fill-opacity="{{ $field->sortType('asc') && $field->sortActive() ? '1' : '.5' }}" d="m11.47,4.72a0.75,0.75 0 0 1 1.06,0l3.75,3.75a0.75,0.75 0 0 1 -1.06,1.06l-3.22,-3.22l-3.22,3.22a0.75,0.75 0 0 1 -1.06,-1.06l3.75,-3.75z" clip-rule="evenodd"></path>
-                                                    <path fill-rule="evenodd" fill-opacity="{{ $field->sortType('desc') && $field->sortActive() ? '1' : '.5' }}" d="m12.53,4.72zm-4.81,9.75a0.75,0.75 0 0 1 1.06,0l3.22,3.22l3.22,-3.22a0.75,0.75 0 1 1 1.06,1.06l-3.75,3.75a0.75,0.75 0 0 1 -1.06,0l-3.75,-3.75a0.75,0.75 0 0 1 0,-1.06z" clip-rule="evenodd"></path>
-                                                </svg>
-                                            </a>
-                                        @endif
-                                    </div>
-                                </th>
-                            @endforeach
+                                    @if(!$resource->isPreviewMode() && $field->isSortable())
+                                        <a href="{{ $field->sortQuery() }}" class="shrink-0" @click.prevent="canBeAsync">
+                                            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" fill-opacity="{{ $field->sortType('asc') && $field->sortActive() ? '1' : '.5' }}" d="m11.47,4.72a0.75,0.75 0 0 1 1.06,0l3.75,3.75a0.75,0.75 0 0 1 -1.06,1.06l-3.22,-3.22l-3.22,3.22a0.75,0.75 0 0 1 -1.06,-1.06l3.75,-3.75z" clip-rule="evenodd"></path>
+                                                <path fill-rule="evenodd" fill-opacity="{{ $field->sortType('desc') && $field->sortActive() ? '1' : '.5' }}" d="m12.53,4.72zm-4.81,9.75a0.75,0.75 0 0 1 1.06,0l3.22,3.22l3.22,-3.22a0.75,0.75 0 1 1 1.06,1.06l-3.75,3.75a0.75,0.75 0 0 1 -1.06,0l-3.75,-3.75a0.75,0.75 0 0 1 0,-1.06z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </a>
+                                    @endif
+                                </div>
+                            </th>
+                            <th>
+                                <div class="flex items-baseline gap-x-1">
+                                    Pulang
 
+                                    @if(!$resource->isPreviewMode() && $field->isSortable())
+                                        <a href="{{ $field->sortQuery() }}" class="shrink-0" @click.prevent="canBeAsync">
+                                            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" fill-opacity="{{ $field->sortType('asc') && $field->sortActive() ? '1' : '.5' }}" d="m11.47,4.72a0.75,0.75 0 0 1 1.06,0l3.75,3.75a0.75,0.75 0 0 1 -1.06,1.06l-3.22,-3.22l-3.22,3.22a0.75,0.75 0 0 1 -1.06,-1.06l3.75,-3.75z" clip-rule="evenodd"></path>
+                                                <path fill-rule="evenodd" fill-opacity="{{ $field->sortType('desc') && $field->sortActive() ? '1' : '.5' }}" d="m12.53,4.72zm-4.81,9.75a0.75,0.75 0 0 1 1.06,0l3.22,3.22l3.22,-3.22a0.75,0.75 0 1 1 1.06,1.06l-3.75,3.75a0.75,0.75 0 0 1 -1.06,0l-3.75,-3.75a0.75,0.75 0 0 1 0,-1.06z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </a>
+                                    @endif
+                                </div>
+                            </th>
+                            <th>
+                                <div class="flex items-baseline gap-x-1">
+                                    Waktu Kerja
+                                </div>
+                            </th>
 
                         </x-slot:thead>
 
                         <x-slot:tbody>
-                            {{-- @include("crud.table-body-karyawan", [$resources]) --}}
+                            @include("crud.table-body-karyawan", [$resources])
                         </x-slot:tbody>
 
                         <x-slot:tfoot x-ref="foot" ::class="actionsOpen ? 'translate-y-none ease-out' : '-translate-y-full ease-in hidden'">
