@@ -7,8 +7,6 @@ use Illuminate\Support\ServiceProvider;
 use MoonShine\MoonShine;
 use MoonShine\Menu\MenuGroup;
 use MoonShine\Menu\MenuItem;
-// use MoonShine\Resources\MoonShineUserResource;
-use MoonShine\Resources\MoonShineUserRoleResource;
 use MoonShine\Models\MoonshineUserRole;
 use App\MoonShine\Resources\BranchResource;
 use App\MoonShine\Resources\CompanyResource;
@@ -23,18 +21,22 @@ use App\MoonShine\Resources\KaryawanResource;
 use App\MoonShine\Resources\AbsensiResource;
 use App\MoonShine\Resources\MoonShineUserResource;
 use MoonShine\Resources\CustomPage;
+use App\Reports\TurnOver;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        $report = new TurnOver;
+        $report->run();
+
         app(MoonShine::class)->menu([
             MenuItem::make('Dashboard', fn() => route('moonshine.index'))->icon('heroicons.outline.computer-desktop') ,
 
 
             MenuGroup::make('moonshine::ui.resource.reports', [
                 MenuItem::make('moonshine::ui.resource.turnover',
-                    CustomPage::make('moonshine::ui.resource.turnover', 'turnover', 'turnover' , fn() => [])
+                    CustomPage::make('moonshine::ui.resource.turnover', 'turnover', 'turnover' , fn() => ['report' => $report])
                     ->withoutTitle()->translatable()
                 )->icon('heroicons.outline.arrows-right-left')->translatable(),
             ])
