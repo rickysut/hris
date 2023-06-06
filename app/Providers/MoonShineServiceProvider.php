@@ -30,6 +30,32 @@ class MoonShineServiceProvider extends ServiceProvider
     {
         app(MoonShine::class)->menu([
             MenuItem::make('Dashboard', fn() => route('moonshine.index'))->icon('heroicons.outline.computer-desktop') ,
+
+
+            MenuGroup::make('moonshine::ui.resource.reports', [
+                MenuItem::make('moonshine::ui.resource.turnover',
+                    CustomPage::make('moonshine::ui.resource.turnover', 'turnover', 'turnover' , fn() => [])
+                    ->withoutTitle()->translatable()
+                )->icon('heroicons.outline.arrows-right-left')->translatable(),
+            ])
+            ->icon('heroicons.outline.chart-bar')
+            ->translatable(),
+
+
+            MenuItem::make('moonshine::ui.resource.employee', new KaryawanResource())
+                    ->translatable()
+                    ->icon('heroicons.outline.users'),
+
+            MenuItem::make('moonshine::ui.resource.attendance', new AbsensiResource())
+                    ->translatable()
+                    ->icon('heroicons.calendar-days'),
+
+
+            MenuItem::make('moonshine::ui.resource.admins_title', new MoonShineUserResource())
+                    ->translatable()
+                    ->icon('users')
+                    ->canSee(fn ($user) => auth()->user()->moonshine_user_role_id === MoonshineUserRole::DEFAULT_ROLE_ID),
+
             MenuGroup::make('moonshine::ui.resource.settings', [
                 MenuItem::make('moonshine::ui.resource.company', new CompanyResource())
                             ->translatable()
@@ -71,32 +97,6 @@ class MoonShineServiceProvider extends ServiceProvider
             ])
             ->icon('heroicons.outline.cog-6-tooth')
             ->translatable(),
-
-            MenuGroup::make('moonshine::ui.resource.reports', [
-                MenuItem::make('moonshine::ui.resource.turnover',
-                    CustomPage::make('moonshine::ui.resource.turnover', 'turnover', 'turnover' , fn() => [])
-                    ->withoutTitle()->translatable()
-                )->icon('heroicons.outline.arrows-right-left')->translatable(),
-            ])
-            ->icon('heroicons.outline.chart-bar')
-            ->translatable(),
-
-
-            MenuItem::make('moonshine::ui.resource.employee', new KaryawanResource())
-                    ->translatable()
-                    ->icon('heroicons.outline.users'),
-
-            MenuItem::make('moonshine::ui.resource.attendance', new AbsensiResource())
-                    ->translatable()
-                    ->icon('heroicons.calendar-days'),
-
-
-            MenuItem::make('moonshine::ui.resource.admins_title', new MoonShineUserResource())
-                    ->translatable()
-                    ->icon('users')
-                    ->canSee(fn ($user) => auth()->user()->moonshine_user_role_id === MoonshineUserRole::DEFAULT_ROLE_ID),
-
-
 
         ]);
     }
