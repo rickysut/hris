@@ -115,7 +115,8 @@ return [
         'attendance' => 'Attendance',
 
         //reporting
-        'turnover' => 'Turn Over',
+        'turnover' => 'Turn over per year',
+        'turnoverdep'=> 'Turn over per department',
 
         'export' => [
             'exported' => 'File exported',

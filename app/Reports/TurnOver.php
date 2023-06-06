@@ -19,32 +19,33 @@ class TurnOver extends \koolreport\KoolReport
     {
         
         $node = $this->src("mysql")
-            ->query("select month as bulan, GROUP_CONCAT(total2023) as '2023', GROUP_CONCAT(total2022) as '2022' , GROUP_CONCAT(total2021) as '2021'
+            ->query("
+            select month as bulan, GROUP_CONCAT(y1) as Y1 , GROUP_CONCAT(y2) as Y2 , GROUP_CONCAT(y3) as Y3
             FROM
             (
-            SELECT  MONTH(end_date) AS month,  CONCAT(COUNT(DISTINCT pin), ' orang') AS total2023 , null as total2022, null as total2021
+            SELECT  MONTH(end_date) AS month,  COUNT(DISTINCT pin) AS y1 , null as y2, null as y3
                         FROM employee
-                        WHERE end_date IS NOT NULL and YEAR(end_date) = 2023
+                        WHERE end_date IS NOT NULL and YEAR(end_date) = Year(NOW())
                         GROUP BY month, YEAR(end_date)
                        
             UNION ALL
             
-            SELECT  MONTH(end_date) AS month, null as total2023, CONCAT(COUNT(DISTINCT pin), ' orang') AS total2022 , null as total2021
+            SELECT  MONTH(end_date) AS month, null as y1, COUNT(DISTINCT pin) AS y2 , null as y3
                         FROM employee
-                        WHERE end_date IS NOT NULL and YEAR(end_date) = 2022
+                        WHERE end_date IS NOT NULL and YEAR(end_date) = Year(NOW())-1
                         GROUP BY month, YEAR(end_date)
             
             UNION ALL
             
-            SELECT  MONTH(end_date) AS month, null as total2023, null AS total2022 , CONCAT(COUNT(DISTINCT pin), ' orang')  as total2021
+            SELECT  MONTH(end_date) AS month, null as y1, null AS y2 , COUNT(DISTINCT pin)  as y3
                         FROM employee
-                        WHERE end_date IS NOT NULL and YEAR(end_date) = 2021
+                        WHERE end_date IS NOT NULL and YEAR(end_date) = Year(NOW())-2
                         GROUP BY month, YEAR(end_date)
                                     
             ) as dataku
             GROUP BY month
-            ORDER BY month
-            ")
+            ORDER BY month")
+        
             ->pipe(new ColumnMeta(array(
                 "bulan"=>array(
                     'type' => 'float',

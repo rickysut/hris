@@ -22,6 +22,7 @@ use App\MoonShine\Resources\AbsensiResource;
 use App\MoonShine\Resources\MoonShineUserResource;
 use MoonShine\Resources\CustomPage;
 use App\Reports\TurnOver;
+use App\Reports\TODep;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,9 @@ class MoonShineServiceProvider extends ServiceProvider
         $report = new TurnOver;
         $report->run();
 
+        $report2 = new TODep;
+        $report2->run();
+
         app(MoonShine::class)->menu([
             MenuItem::make('Dashboard', fn() => route('moonshine.index'))->icon('heroicons.outline.computer-desktop') ,
 
@@ -37,6 +41,10 @@ class MoonShineServiceProvider extends ServiceProvider
             MenuGroup::make('moonshine::ui.resource.reports', [
                 MenuItem::make('moonshine::ui.resource.turnover',
                     CustomPage::make('moonshine::ui.resource.turnover', 'turnover', 'turnover' , fn() => ['report' => $report])
+                    ->withoutTitle()->translatable()
+                )->icon('heroicons.outline.arrows-right-left')->translatable(),
+                MenuItem::make('moonshine::ui.resource.turnoverdep',
+                    CustomPage::make('moonshine::ui.resource.turnoverdep', 'turnoverdep', 'turnoverdep' , fn() => ['report' => $report2])
                     ->withoutTitle()->translatable()
                 )->icon('heroicons.outline.arrows-right-left')->translatable(),
             ])
