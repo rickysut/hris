@@ -84,7 +84,7 @@ class AbsensiResource extends Resource
             Text::make('Masuk', 'masuk')->mask('99:99')->hideOnIndex()->hideOnDetail(),
             Date::make('Pulang', 'pulang', fn($item) => $item->pulang)->withTime()->format('H:i')->sortable()->hideOnForm(),
             Text::make('Pulang', 'pulang')->mask('99:99')->hideOnIndex()->hideOnDetail(),
-            NoInput::make('Total', 'total', fn($item) =>  date( "H:i", strtotime($item->pulang)- strtotime($item->masuk)) )->hideOnForm()  ,
+            NoInput::make('Total Jam', 'total', fn($item) =>  date( "H:i", strtotime($item->pulang)- strtotime($item->masuk)) )->hideOnForm()  ,
             // Date::make('Keluar istirahat', 'breakout', fn($item) => $item->breakin)->withTime()->format('H:i')->sortable()->hideOnForm(),
             // Text::make('Keluar istirahat', 'breakout')->mask('99:99')->hideOnIndex(),
             // Date::make('Masuk istirahat', 'breakin', fn($item) => $item->breakout)->withTime()->format('H:i')->sortable()->hideOnForm(),

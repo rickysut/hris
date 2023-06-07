@@ -115,8 +115,8 @@ return [
         'attendance' => 'Absensi',
 
         //reporting
-        'turnover' => 'Turn Over',
-
+        'turnover' => 'Turn over per bulan',
+        'turnoverdep'=> 'Turn over per departemen',
         'export' => [
             'exported' => 'File exported',
         ],

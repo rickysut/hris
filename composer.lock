@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a870c13f7f4bc9455b0da272c1f9103",
+    "content-hash": "8b640ba7aab11d4fa9f941d3f9013555",
     "packages": [
         {
             "name": "brick/math",
@@ -973,6 +973,91 @@
                 }
             ],
             "time": "2021-10-07T12:57:01+00:00"
+        },
+        {
+            "name": "koolreport/core",
+            "version": "4.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/koolreport/core.git",
+                "reference": "5e0a4b0a08bd35691b78042c9ca1d88d716e935a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/koolreport/core/zipball/5e0a4b0a08bd35691b78042c9ca1d88d716e935a",
+                "reference": "5e0a4b0a08bd35691b78042c9ca1d88d716e935a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "autoload.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KoolPHP Inc",
+                    "homepage": "https://www.koolphp.net"
+                }
+            ],
+            "description": "An Open Source PHP Reporting Framework for easier and faster report delivery.",
+            "homepage": "https://www.koolreport.com",
+            "keywords": [
+                "PHP Reporting Framework",
+                "PHP Reporting Tools",
+                "charts and graphs",
+                "data processing",
+                "data visualization"
+            ],
+            "support": {
+                "issues": "https://github.com/koolreport/core/issues",
+                "source": "https://github.com/koolreport/core/tree/master"
+            },
+            "time": "2020-05-19T07:37:11+00:00"
+        },
+        {
+            "name": "koolreport/laravel",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/koolreport/laravel.git",
+                "reference": "b6918a3ae7c72d4a4c814691f716f257c9d2a784"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/koolreport/laravel/zipball/b6918a3ae7c72d4a4c814691f716f257c9d2a784",
+                "reference": "b6918a3ae7c72d4a4c814691f716f257c9d2a784",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Allow to use KoolReport seamlessly in Laravel",
+            "homepage": "https://www.koolreport.com",
+            "keywords": [
+                "Data Report",
+                "KooLReport Laravel",
+                "Laravel Report",
+                "Reporting Tools",
+                "laravel",
+                "laravel reporting",
+                "laravel reporting tool",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/koolreport/laravel/issues",
+                "source": "https://github.com/koolreport/laravel/tree/master"
+            },
+            "time": "2020-01-21T07:25:24+00:00"
         },
         {
             "name": "laravel/framework",
@@ -6339,28 +6424,30 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "1.5.1",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "e92dcc83d5a51851baf5f5591d32cb2b16e3684e"
+                "reference": "a8dd186f07ea667c1e3abd2176bfab0ab161ea94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/e92dcc83d5a51851baf5f5591d32cb2b16e3684e",
-                "reference": "e92dcc83d5a51851baf5f5591d32cb2b16e3684e",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/a8dd186f07ea667c1e3abd2176bfab0ab161ea94",
+                "reference": "a8dd186f07ea667c1e3abd2176bfab0ab161ea94",
                 "shasum": ""
             },
             "require": {
                 "hamcrest/hamcrest-php": "^2.0.1",
                 "lib-pcre": ">=7.0",
-                "php": "^7.3 || ^8.0"
+                "php": "^7.4 || ^8.0"
             },
             "conflict": {
                 "phpunit/phpunit": "<8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.5 || ^9.3"
+                "phpunit/phpunit": "^8.5 || ^9.3",
+                "psalm/plugin-phpunit": "^0.18",
+                "vimeo/psalm": "^5.9"
             },
             "type": "library",
             "extra": {
@@ -6369,8 +6456,12 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Mockery": "library/"
+                "files": [
+                    "library/helpers.php",
+                    "library/Mockery.php"
+                ],
+                "psr-4": {
+                    "Mockery\\": "library/Mockery"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -6405,9 +6496,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mockery/mockery/issues",
-                "source": "https://github.com/mockery/mockery/tree/1.5.1"
+                "source": "https://github.com/mockery/mockery/tree/1.6.1"
             },
-            "time": "2022-09-07T15:32:08+00:00"
+            "time": "2023-06-05T13:59:03+00:00"
         },
         {
             "name": "myclabs/deep-copy",
