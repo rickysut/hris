@@ -117,6 +117,8 @@ return [
         //reporting
         'turnover' => 'Turn over per year',
         'turnoverdep'=> 'Turn over per department',
+        'performa'=> 'Employee performance',
+        
 
         'export' => [
             'exported' => 'File exported',

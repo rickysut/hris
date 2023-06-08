@@ -117,6 +117,9 @@ return [
         //reporting
         'turnover' => 'Turn over per bulan',
         'turnoverdep'=> 'Turn over per departemen',
+        'performa'=> 'Kinerja Karyawan',
+
+
         'export' => [
             'exported' => 'File exported',
         ],

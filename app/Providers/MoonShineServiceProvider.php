@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-
+use App\Models\Karyawan;
 use Illuminate\Support\ServiceProvider;
 use MoonShine\MoonShine;
 use MoonShine\Menu\MenuGroup;
@@ -47,6 +47,10 @@ class MoonShineServiceProvider extends ServiceProvider
                     CustomPage::make('moonshine::ui.resource.turnoverdep', 'turnoverdep', 'turnoverdep' , fn() => ['report' => $report2])
                     ->withoutTitle()->translatable()
                 )->icon('heroicons.outline.arrows-right-left')->translatable(),
+                MenuItem::make('moonshine::ui.resource.performa',
+                    CustomPage::make('moonshine::ui.resource.performa', 'performa', 'performa' , fn() => ['employees' => Karyawan::where('active', 1)->select(['id','nik','name'])->orderBy('name', 'asc')->get()])
+                    ->withoutTitle()->translatable()
+                )->icon('heroicons.outline.trophy')->translatable(),
             ])
             ->icon('heroicons.outline.chart-bar')
             ->translatable(),
