@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('resigns', function (Blueprint $table) {
+        Schema::create('berhenti', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('employee_id');
             $table->string('nik');
-            $table->timestamp('leave_date');
-            $table->string('reason');
-            $table->string('noted');
+            $table->timestamp('tanggal');
+            $table->string('alasan')->nullable();
+            $table->string('keterangan')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('resigns');
+        Schema::dropIfExists('berhenti');
     }
 };

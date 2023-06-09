@@ -11,6 +11,7 @@
     <div class="col-span-12 xl:col-span-10 mt-1">
         <x-moonshine::form.select
             name="nama"
+            id="nama"
             placeholder="Karyawan"
             value=""
             @class(['mt-2'])
@@ -39,10 +40,11 @@
     $(document).ready(function(){
 
         $('#tombol').click(function(){
-            alert("The paragraph was clicked.");
+            var emp_id =  $('#nama').find(":selected").val();
+            console.log(emp_id)
         });
     })
-    
+
 </script>
 
 @endsection
