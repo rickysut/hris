@@ -64,7 +64,7 @@
 
 <div class="flex flex-col gap-y-8 gap-x-6 sm:grid sm:grid-cols-12 lg:gap-y-10 mt-4">
     <div class="space-y-6 col-span-12 xl:col-span-12">
-        <div id="chart_div" style="max-width:700px; height:400px"></div>
+        <div id="linechart" style="width: 900px; height: 500px"></div>
     </div>
 
     <div class="space-y-6 col-span-12 xl:col-span-12">

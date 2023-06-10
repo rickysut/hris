@@ -34,6 +34,15 @@ class MoonShineServiceProvider extends ServiceProvider
         $report2 = new TODep;
         $report2->run();
 
+        $visitor = [
+            ['TITLE', 'TOTAL'],
+            ['Hadir', 21],
+            ['Ijin', 1],
+            ['Sakit', 1],
+            ['Telat', 4],
+            ['PlgCepat', 1],
+        ];
+
         app(MoonShine::class)->menu([
             MenuItem::make('Dashboard', fn() => route('moonshine.index'))->icon('heroicons.outline.computer-desktop') ,
 
@@ -48,8 +57,10 @@ class MoonShineServiceProvider extends ServiceProvider
                     ->withoutTitle()->translatable()
                 )->icon('heroicons.outline.arrows-right-left')->translatable(),
                 MenuItem::make('moonshine::ui.resource.performa',
-                    CustomPage::make('moonshine::ui.resource.performa', 'performa', 'performa' , fn() => ['employees' => Karyawan::where('active', 1)->select(['id','nik','name'])->orderBy('name', 'asc')->get()])
-                    ->layout('layouts.report-performance')->withoutTitle()->translatable()
+                    // CustomPage::make('moonshine::ui.resource.performa', 'performa', 'performa' , fn() => ['visitor' => $visitor, 'employees' => Karyawan::where('active', 1)->select(['id','nik','name'])->orderBy('name', 'asc')->get()])
+                    // ->layout('layouts.report-performance')->withoutTitle()->translatable()
+                    CustomPage::make('moonshine::ui.resource.performa', 'performa', 'performa2' , fn() => ['visitor' => json_encode($visitor), 'employees' => Karyawan::where('active', 1)->select(['id','nik','name'])->orderBy('name', 'asc')->get()])
+                    ->withoutTitle()->translatable()
                 )->icon('heroicons.outline.trophy')->translatable(),
             ])
             ->icon('heroicons.outline.chart-bar')
