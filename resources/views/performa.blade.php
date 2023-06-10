@@ -1,25 +1,34 @@
-{{-- @extends('layouts.report-performance')
-@section('content') --}}
+
 
 <x-moonshine::title
 @class(['text-center','mb-4'])>
-{{ trans('moonshine::ui.resource.performa') }} satu
+{{ trans('moonshine::ui.resource.performa') }}
 </x-moonshine::title>
 <form class="form" method="POST">
     @csrf
     <div class="flex flex-col items-center">
         <div class="form-group">
-            <x-moonshine::form.label name="bulan" for="bulan" required>
+            <x-moonshine::form.label name="bulan" for="bulan1" required>
                 Periode
             </x-moonshine::form.label>
 
-            <x-moonshine::form.input
-                type="month"
-                name="bulan"
-                id="bulan"
-                @class(['form-input'])
-                required
-            />
+            <div class="flex flex-row items-center  space-x-6">
+
+                <x-moonshine::form.input
+                    type="month"
+                    name="bulan1"
+                    id="bulan1"
+                    @class(['form-input'])
+                    required
+                />
+                <x-moonshine::form.input
+                    type="month"
+                    name="bulan2"
+                    id="bulan2"
+                    @class(['form-input'])
+                    required
+                />
+            </div>
         </div>
         <div class="form-group">
             <x-moonshine::form.label name="nama" for="nama" required>
@@ -45,7 +54,7 @@
         </div>
 
     </div>
-    <div class="form-group">
+    <div class="md:flex-shrink-0">
         <a class="btn btn-primary w-full" href="#" id="tombol">
             <x-moonshine::icon icon="heroicons.outline.funnel" />
             Lihat
@@ -65,7 +74,6 @@
 </div>
 
 
-{{-- @endsection --}}
 
 
 @push('scripts')
