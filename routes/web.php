@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EssController;
+use App\Http\Controllers\PerformaController;
 
 
 /*
@@ -16,3 +17,6 @@ use App\Http\Controllers\EssController;
 */
 Route::resource('ess', EssController::class);
 Route::post('self-service',  [EssController::class , 'login'])->name('ess.login');
+Route::post("performa-data", [PerformaController::class , 'getData'])->name('performa.getdata');
+Route::post("total-data", [PerformaController::class , 'getTotal'])->name('performa.gettotal');
+

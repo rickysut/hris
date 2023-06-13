@@ -23,6 +23,7 @@ use App\MoonShine\Resources\MoonShineUserResource;
 use MoonShine\Resources\CustomPage;
 use App\Reports\TurnOver;
 use App\Reports\TODep;
+use Carbon\Carbon;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -34,14 +35,12 @@ class MoonShineServiceProvider extends ServiceProvider
         $report2 = new TODep;
         $report2->run();
 
-        $visitor = [
-            ['TITLE', 'TOTAL'],
-            ['Hadir', 21],
-            ['Ijin', 1],
-            ['Sakit', 1],
-            ['Telat', 4],
-            ['PlgCepat', 1],
-        ];
+        $currentDate = Carbon::now()->subMonth();
+        $endDateOfMonth = $currentDate->endOfMonth();
+        $EndMonth = $endDateOfMonth->format('Y-m');
+        $SubLastMonth = $currentDate->subMonthNoOverflow()->setDay(26);
+        $StartMonth = $SubLastMonth->format('Y-m');
+
 
         app(MoonShine::class)->menu([
             MenuItem::make('Dashboard', fn() => route('moonshine.index'))->icon('heroicons.outline.computer-desktop') ,
@@ -59,7 +58,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 MenuItem::make('moonshine::ui.resource.performa',
                     // CustomPage::make('moonshine::ui.resource.performa', 'performa', 'performa' , fn() => ['visitor' => $visitor, 'employees' => Karyawan::where('active', 1)->select(['id','nik','name'])->orderBy('name', 'asc')->get()])
                     // ->layout('layouts.report-performance')->withoutTitle()->translatable()
-                    CustomPage::make('moonshine::ui.resource.performa', 'performa', 'performa2' , fn() => ['visitor' => json_encode($visitor), 'employees' => Karyawan::where('active', 1)->select(['id','nik','name'])->orderBy('name', 'asc')->get()])
+                    CustomPage::make('moonshine::ui.resource.performa', 'performa', 'performa2' , fn() => ['startMonth' => $StartMonth, 'endMonth' => $EndMonth, 'employees' => Karyawan::where('active', 1)->select(['id','nik','name'])->orderBy('name', 'asc')->get()])
                     ->withoutTitle()->translatable()
                 )->icon('heroicons.outline.trophy')->translatable(),
             ])
