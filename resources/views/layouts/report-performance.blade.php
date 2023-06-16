@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{}">
     <head>
+        <!--Load the AJAX API-->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            var visitor = <?php echo $visitor; ?>;
+            console.log(visitor);
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+              var data = google.visualization.arrayToDataTable(visitor);
+              var options = {
+                title: 'Site Visitor Line Chart',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+              };
+              var chart = new google.visualization.LineChart(document.getElementById('linechart'));
+              chart.draw(data, options);
+            }
+          </script>
+
         @include('moonshine::layouts.shared.head')
 
         {!! app(\MoonShine\Utilities\AssetManager::class)->css() !!}
@@ -20,6 +39,8 @@
         <script>
             const translates = @js(__('moonshine::ui'));
         </script>
+
+
     </head>
     <style>
         .layout-page {
@@ -27,6 +48,11 @@
         }
         .layout-menu .menu-inner {
             margin-top: 28px;
+        }
+        @media (min-width: 640px) {
+            .w-full {
+                width: auto !important;
+            }
         }
     </style>
 
@@ -54,6 +80,10 @@
         </div>
 
 
+
+
         @stack('scripts')
     </body>
 </html>
+
+
