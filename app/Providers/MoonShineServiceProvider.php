@@ -24,6 +24,7 @@ use MoonShine\Resources\CustomPage;
 use App\Reports\TurnOver;
 use App\Reports\TODep;
 use Carbon\Carbon;
+use App\MoonShine\Resources\SetupPayrollResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -74,6 +75,14 @@ class MoonShineServiceProvider extends ServiceProvider
                     ->translatable()
                     ->icon('heroicons.calendar-days'),
 
+            MenuGroup::make('moonshine::ui.resource.payroll', [
+                // MenuItem::make('moonshine::ui.resource.setuppayroll', new SetupPayrollResource())
+                //             ->translatable()
+                //             ->icon('heroicons.outline.cog-6-tooth'),
+
+            ])
+            ->translatable()
+            ->icon('heroicons.outline.banknotes'),
 
             MenuItem::make('moonshine::ui.resource.admins_title', new MoonShineUserResource())
                     ->translatable()

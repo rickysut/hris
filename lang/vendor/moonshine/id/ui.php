@@ -118,7 +118,8 @@ return [
         'turnover' => 'Turn over per bulan',
         'turnoverdep'=> 'Turn over per departemen',
         'performa'=> 'Kinerja Karyawan',
-
+        'payroll'=> 'Payroll',
+        'setuppayroll'=> 'Pengaturan',
 
         'export' => [
             'exported' => 'File exported',
