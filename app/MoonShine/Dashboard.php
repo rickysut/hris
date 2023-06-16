@@ -45,10 +45,10 @@ class Dashboard extends DashboardScreen
                     ->whereBetween('tanggal', [$StartDate, $EndDate])->count();
 
         $sql =  "SELECT COUNT(*) AS absent
-        FROM Employee
+        FROM employee
         WHERE id NOT IN (
             SELECT karyawan_id
-            FROM Attendance
+            FROM attendance
             WHERE tanggal BETWEEN '2023-04-26' AND '2023-05-25'
         )";
         $tdkHadir = DB::select(DB::raw($sql));

@@ -118,7 +118,9 @@ return [
         'turnover' => 'Turn over per year',
         'turnoverdep'=> 'Turn over per department',
         'performa'=> 'Employee performance',
-        
+        'payroll'=> 'Payroll',
+        'setuppayroll'=> 'Setup',
+
 
         'export' => [
             'exported' => 'File exported',
