@@ -72,6 +72,7 @@ return [
         'employee' => 'Daftar karyawan',
         'holiday' => 'Pengaturan hari libur',
         'attendance' => 'Data absensi karyawan',
+        'setuppayroll'=> 'Pangaturan skema penggajian',
     ],
 
     'resource' => [

@@ -15,6 +15,38 @@ class SetupPayrollResource extends Resource
 
 	public static string $title = 'SetupPayrolls';
 
+	public string $titleField = 'name';
+
+    public static string $orderField = 'id';
+
+    public static string $orderType = 'ASC';
+
+    public function title(): string
+    {
+        return trans('moonshine::ui.resource.setuppayroll');
+    }
+
+    public function subTitle(): string
+    {
+        return trans('moonshine::ui.subtitle.setuppayroll');
+    }
+
+    public static bool $withPolicy = true;
+
+    public static array $activeActions = ['show','create','edit','delete'];
+
+    // protected string $itemsView = 'vendor.moonshine.crud.shared.table_karyawan';
+
+    // protected string $formView = 'vendor.moonshine.crud.shared.form_karyawan';
+    // protected string $detailView = 'crud.detail-card-karyawan';
+
+    public static int $itemsPerPage = 10; // Number of items per page
+
+    // public static array $with = ['attendance'];
+
+
+
+
 	public function fields(): array
 	{
 		return [

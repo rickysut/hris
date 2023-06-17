@@ -76,9 +76,9 @@ class MoonShineServiceProvider extends ServiceProvider
                     ->icon('heroicons.calendar-days'),
 
             MenuGroup::make('moonshine::ui.resource.payroll', [
-                // MenuItem::make('moonshine::ui.resource.setuppayroll', new SetupPayrollResource())
-                //             ->translatable()
-                //             ->icon('heroicons.outline.cog-6-tooth'),
+                MenuItem::make('moonshine::ui.resource.setuppayroll', new SetupPayrollResource())
+                            ->translatable()
+                            ->icon('heroicons.outline.cog-6-tooth'),
 
             ])
             ->translatable()

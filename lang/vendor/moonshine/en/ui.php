@@ -72,6 +72,7 @@ return [
         'employee' => 'Employee list',
         'holiday' => 'List of holiday',
         'attendance' => 'Employee attendance',
+        'setuppayroll'=> 'Payroll setup schema',
     ],
 
     'resource' => [
