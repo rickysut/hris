@@ -73,6 +73,7 @@ return [
         'holiday' => 'List of holiday',
         'attendance' => 'Employee attendance',
         'setuppayroll'=> 'Payroll setup schema',
+        'payemployee' => 'Employee payroll setup',
     ],
 
     'resource' => [
@@ -119,9 +120,11 @@ return [
         'turnover' => 'Turn over per year',
         'turnoverdep'=> 'Turn over per department',
         'performa'=> 'Employee performance',
+
+        //payroll
         'payroll'=> 'Payroll',
         'setuppayroll'=> 'Setup',
-
+        'payemployee' => 'Employee Payroll',
 
         'export' => [
             'exported' => 'File exported',

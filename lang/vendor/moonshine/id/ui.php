@@ -73,6 +73,7 @@ return [
         'holiday' => 'Pengaturan hari libur',
         'attendance' => 'Data absensi karyawan',
         'setuppayroll'=> 'Pangaturan skema penggajian',
+        'payemployee' => 'Setup gaji karyawan',
     ],
 
     'resource' => [
@@ -119,8 +120,11 @@ return [
         'turnover' => 'Turn over per bulan',
         'turnoverdep'=> 'Turn over per departemen',
         'performa'=> 'Kinerja Karyawan',
+
+        //payroll
         'payroll'=> 'Payroll',
         'setuppayroll'=> 'Pengaturan',
+        'payemployee' => 'Gaji karyawan',
 
         'export' => [
             'exported' => 'File exported',

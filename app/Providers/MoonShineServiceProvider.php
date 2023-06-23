@@ -20,6 +20,7 @@ use App\MoonShine\Resources\MultiplicationResource;
 use App\MoonShine\Resources\KaryawanResource;
 use App\MoonShine\Resources\AbsensiResource;
 use App\MoonShine\Resources\MoonShineUserResource;
+use App\MoonShine\Resources\PayrollEmployeeResource;
 use MoonShine\Resources\CustomPage;
 use App\Reports\TurnOver;
 use App\Reports\TODep;
@@ -79,6 +80,9 @@ class MoonShineServiceProvider extends ServiceProvider
                 MenuItem::make('moonshine::ui.resource.setuppayroll', new SetupPayrollResource())
                             ->translatable()
                             ->icon('heroicons.outline.cog-6-tooth'),
+                MenuItem::make('moonshine::ui.resource.payemployee', new PayrollEmployeeResource())
+                            ->translatable()
+                            ->icon('heroicons.banknotes'),
 
             ])
             ->translatable()
